@@ -1,2 +1,2 @@
 # trial
-Test Implementations of common data structures and algorithms
+Test implementations of common data structures and algorithms for personal use.
