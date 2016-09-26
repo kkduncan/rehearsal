@@ -24,4 +24,37 @@
 #define KD_TRIAL_LINKED_LIST_HPP_
 
 
+/**
+ * \brief Singly-Linked List
+ */
+template <typename ValueType>
+class SinglyLinkedList
+{
+public:
+	// Forward declaration
+	struct Node;
+
+	// Convenience definitions
+	using NodePtr = std::shared_ptr<Node>;
+
+	struct Node
+	{
+		ValueType value;
+		NodePtr next;
+	};
+
+public:
+	void addToFront(const ValueType& val);
+	void addToBack(const ValueType& val);
+	bool remove(const ValueType& val);
+	bool empty() const;
+	size_t size() const;
+	NodePtr& head();
+
+private:
+	NodePtr mHead;	// Head of the list
+	size_t mSize;		// Keeps a record of the list's size
+
+};
+
 #endif /* KD_TRIAL_LINKED_LIST_HPP_ */
