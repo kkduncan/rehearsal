@@ -37,6 +37,7 @@ public:
 	// Convenience definitions
 	using NodePtr = std::shared_ptr<Node>;
 
+	/// Singly-linked Node
 	struct Node
 	{
 		ValueType value;
@@ -44,12 +45,29 @@ public:
 	};
 
 public:
+	/// Constructor
+	SinglyLinkedList();
+
+	/// Destructor
+	virtual ~SinglyLinkedList();
+
+	/// Adds an item to the front of the list
 	void addToFront(const ValueType& val);
+
+	/// Adds an item to the end of the list
 	void addToBack(const ValueType& val);
+
+	/// Removes an item from the list (if it exists)
 	bool remove(const ValueType& val);
+
+	/// Indicates whether the list is empty
 	bool empty() const;
+
+	/// Returns the number of items in the list
 	size_t size() const;
-	NodePtr& head();
+
+	/// Returns a reference to the head of this list
+	const NodePtr& head();
 
 private:
 	NodePtr mHead;	// Head of the list
