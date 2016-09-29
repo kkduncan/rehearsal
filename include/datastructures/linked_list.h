@@ -1,8 +1,6 @@
 /**
  * trial
  *
- * This file is part of "trial."
- *
  *  trial is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -16,18 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  *
- * \file linked_list.hpp
+ * \file linked_list.h
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_LINKED_LIST_HPP_
-#define KD_TRIAL_LINKED_LIST_HPP_
+#ifndef KD_TRIAL_LINKED_LIST_H_
+#define KD_TRIAL_LINKED_LIST_H_
 
+#include <memory>
 
+/**
+ * \brief Namespace containing all functionality
+ */
+namespace kd
+{
 /**
  * \brief Singly-Linked List
  */
-template <typename ValueType>
+template <typename T>
 class SinglyLinkedList
 {
 public:
@@ -40,7 +44,9 @@ public:
 	/// Singly-linked Node
 	struct Node
 	{
-		ValueType value;
+		Node() : value(), next() {}
+		Node(T v, NodePtr n) : value(v), next(n) {}
+		T value;
 		NodePtr next;
 	};
 
@@ -52,16 +58,22 @@ public:
 	virtual ~SinglyLinkedList();
 
 	/// Adds an item to the front of the list
-	void addToFront(const ValueType& val);
+	void addToFront(const T& val);
 
 	/// Adds an item to the end of the list
-	void addToBack(const ValueType& val);
+	void addToBack(const T& val);
 
 	/// Removes an item from the list (if it exists)
-	bool remove(const ValueType& val);
+	bool remove(const T& val);
 
 	/// Indicates whether the list is empty
 	bool empty() const;
+
+	/// Print the contents of the list
+	void print() const;
+
+	/// Delete the list
+	void clear();
 
 	/// Returns the number of items in the list
 	size_t size() const;
@@ -75,4 +87,9 @@ private:
 
 };
 
-#endif /* KD_TRIAL_LINKED_LIST_HPP_ */
+} // namespace kd
+
+// Include implementation
+#include <datastructures/impl/linked_list.hpp>
+
+#endif /* KD_TRIAL_LINKED_LIST_H_ */

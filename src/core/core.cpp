@@ -1,5 +1,5 @@
 // Implementation for core.hpp
 
-#include <core/core.hpp>
+#include <core/core.h>
 
 
