@@ -39,13 +39,14 @@ public:
 	struct Node;
 
 	// Convenience definitions
-	using NodePtr = std::shared_ptr<Node>;
+	using NodePtr = std::unique_ptr<Node>;
+	using RawNodePtr = Node*;
 
 	/// Singly-linked Node
 	struct Node
 	{
 		Node() : value(), next() {}
-		Node(T v, NodePtr n) : value(v), next(n) {}
+		Node(T v) : value(v), next() {}
 		T value;
 		NodePtr next;
 	};
@@ -63,7 +64,7 @@ public:
 	/// Adds an item to the end of the list
 	void addToBack(const T& val);
 
-	/// Removes an item from the list (if it exists)
+	/// Removes the first occurrence of an item from the list (if it exists)
 	bool remove(const T& val);
 
 	/// Indicates whether the list is empty
@@ -72,24 +73,28 @@ public:
 	/// Print the contents of the list
 	void print() const;
 
-	/// Delete the list
+	/// Delete this list
 	void clear();
 
 	/// Returns the number of items in the list
 	size_t size() const;
 
-	/// Returns a reference to the head of this list
+	/// Returns a reference to the first element of this list
 	const NodePtr& head();
+
+	/// Returns a reference to the last element of this list
+	const NodePtr& end();
 
 private:
 	NodePtr mHead;	// Head of the list
-	size_t mSize;		// Keeps a record of the list's size
+	NodePtr mTail;	// End of the list
+	size_t mSize;	// Keeps a record of the list's size
 
 };
 
 } // namespace kd
 
 // Include implementation
-#include <datastructures/impl/linked_list.hpp>
+#include <collections/impl/linked_list.hpp>
 
 #endif /* KD_TRIAL_LINKED_LIST_H_ */
