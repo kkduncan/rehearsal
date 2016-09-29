@@ -12,7 +12,7 @@ project (trial)
 #=====================#
 # Headers and Sources #
 #=====================#
-set (TRIAL_INC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/include/core/core.hpp)
+set (TRIAL_INC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/include/core/core.h)
 set (TRIAL_INC_DATA_STRUCTS ${CMAKE_CURRENT_SOURCE_DIR}/include/datastructures/linked_list.h)
 set (TRIAL_INC_DATA_STRUCTS ${CMAKE_CURRENT_SOURCE_DIR}/include/datastructures/impl/linked_list.hpp)
 
