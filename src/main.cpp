@@ -4,9 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-	std::cout << "In full effect" << std::endl;
-	std::cout << "Ready..." << std::endl;
-
+	std::cout << "[    Commencing    ]" << std::endl;
 	kd::SinglyLinkedList<int> list;
 
 	list.addToFront(1);
@@ -14,13 +12,20 @@ int main(int argc, char *argv[])
 	list.addToFront(3);
 	list.addToFront(4);
 	list.addToFront(5);
-
 	list.print();
 
-	list.remove(3);
-
+	list.remove(1);
 	list.print();
 	
+	list.remove(5);
+	list.print();
+
+	list.remove(4);
+	list.print();
+ 
+ 	list.remove(0);
+
+	list.print();
 	list.clear();
 	list.print();
 

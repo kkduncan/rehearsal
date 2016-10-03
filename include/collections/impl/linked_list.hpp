@@ -5,7 +5,7 @@
 #include <iostream>
 
 template <typename T>
-kd::SinglyLinkedList<T>::SinglyLinkedList() : mHead(), mSize(0)
+kd::SinglyLinkedList<T>::SinglyLinkedList() : mHead(nullptr), mTail(nullptr), mSize(0)
 {
 
 }
@@ -23,12 +23,13 @@ void kd::SinglyLinkedList<T>::addToFront(const T& val)
 
 	if (mHead == nullptr)
 	{
-		mHead = std::move(newNode);
+		mHead = newNode;
+		mTail = newNode;
 	}
 	else
 	{
-		newNode->next = std::move(mHead);
-		mHead = std::move(newNode);
+		newNode->next = mHead;
+		mHead = newNode;
 	}
 	++mSize;
 }
@@ -36,50 +37,60 @@ void kd::SinglyLinkedList<T>::addToFront(const T& val)
 template <typename T>
 void kd::SinglyLinkedList<T>::addToBack(const T& val)
 {
-	// TODO: Finish adding to end of list
-// 	NodePtr newNode(new Node(val));
-// 
-// 	if (mHead == nullptr)
-// 	{
-// 		mHead = std::move(newNode);
-// 	}
-// 	else
-// 	{
-// 		newNode->next = std::move(mHead);
-// 		mHead = std::move(newNode);
-// 	}
-// 	++mSize;
+	NodePtr newNode(new Node(val));
+
+	if (mTail == nullptr)
+	{
+		mTail = newNode;
+		mHead = newNode;
+	}
+	else
+	{
+		mTail->next = newNode;
+		mTail = mTail->next;
+	}
+	++mSize;
 }
 
 template <typename T>
 bool kd::SinglyLinkedList<T>::remove(const T& val)
 {
-	RawNodePtr prev(mHead.get());
-	RawNodePtr curr(mHead.get());	
+	NodePtr prev(mHead);
+	NodePtr curr(mHead);	
 	bool found = false;
 
 	while (curr != nullptr && !found)
 	{
 		if (curr->value == val)
 		{
-			if (prev == mHead.get())
+			if (curr == mHead)
 			{
-				mHead = std::move(mHead->next);
-				curr = nullptr;
+				mHead = curr->next;
+				
+				if (curr == mTail)
+				{
+					mTail = curr->next;
+				}
+				delete curr;
 			}
+			else if (curr == mTail)
+			{
+				mTail = prev;
+				mTail->next = nullptr;
+				delete curr;
+			}			
 			else
 			{
-				prev->next = std::move(curr->next);		
-				curr = nullptr;
+				prev->next = curr->next;
+				delete curr;				
 			}
+			
 			--mSize;
 			found = true;
 		}
-		else
-		{
-			prev = curr;
-			curr = curr->next.get();
-		}
+		
+		prev = curr;
+		curr = curr->next;		
 	}
 
 	return found;
@@ -94,14 +105,14 @@ bool kd::SinglyLinkedList<T>::empty() const
 template <typename T>
 void kd::SinglyLinkedList<T>::print() const
 {
-	RawNodePtr curr (mHead.get());	
+	NodePtr curr (mHead);	
 
 	std::cout << std::endl << __FUNCTION__ << ": List contents(" << mSize << ")" << std::endl;
 	
 	while (curr != nullptr)
 	{
 		std::cout << curr->value << " ";
-		curr = curr->next.get();
+		curr = curr->next;
 	}
 
 	std::cout << "\n-- End --" <<  std::endl;
@@ -111,8 +122,14 @@ void kd::SinglyLinkedList<T>::print() const
 template <typename T>
 void kd::SinglyLinkedList<T>::clear()
 {
-	mHead.reset();	
-	mTail.reset();
+	while (mHead != nullptr)
+	{
+		NodePtr nodeToDelete(mHead);
+		mHead = mHead->next;
+		delete nodeToDelete;
+	}
+
+	mTail = nullptr;
 	mSize = 0;
 }
 
@@ -123,15 +140,29 @@ size_t kd::SinglyLinkedList<T>::size() const
 }
 
 template <typename T>
-const typename kd::SinglyLinkedList<T>::NodePtr& kd::SinglyLinkedList<T>::head()
+const typename kd::SinglyLinkedList<T>::Node& kd::SinglyLinkedList<T>::head()
 {
-	return mHead;
+	if (mHead != nullptr)
+	{
+		return *mHead;
+	}
+	else
+	{
+		return std::move(Node());
+	}
 }
 
 template <typename T>
-const typename kd::SinglyLinkedList<T>::NodePtr& kd::SinglyLinkedList<T>::end()
+const typename kd::SinglyLinkedList<T>::Node& kd::SinglyLinkedList<T>::end()
 {
-	return mTail;
+	if (mTail != nullptr)
+	{
+		return *mTail;
+	}
+	else
+	{
+		return std::move(Node());
+	}
 }
 
 

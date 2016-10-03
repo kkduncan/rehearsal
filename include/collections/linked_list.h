@@ -21,8 +21,6 @@
 #ifndef KD_TRIAL_LINKED_LIST_H_
 #define KD_TRIAL_LINKED_LIST_H_
 
-#include <memory>
-
 /**
  * \brief Namespace containing all functionality
  */
@@ -39,14 +37,15 @@ public:
 	struct Node;
 
 	// Convenience definitions
-	using NodePtr = std::unique_ptr<Node>;
-	using RawNodePtr = Node*;
+	using NodePtr = Node*;
 
+
+protected:
 	/// Singly-linked Node
 	struct Node
 	{
-		Node() : value(), next() {}
-		Node(T v) : value(v), next() {}
+		Node() : value(), next(nullptr) {}
+		Node(T v) : value(v), next(nullptr) {}
 		T value;
 		NodePtr next;
 	};
@@ -80,10 +79,10 @@ public:
 	size_t size() const;
 
 	/// Returns a reference to the first element of this list
-	const NodePtr& head();
+	const Node& head();
 
 	/// Returns a reference to the last element of this list
-	const NodePtr& end();
+	const Node& end();
 
 private:
 	NodePtr mHead;	// Head of the list
