@@ -33,21 +33,21 @@ template <typename T>
 class SinglyLinkedList
 {
 public:
-	// Forward declaration
-	struct Node;
-
-	// Convenience definitions
-	using NodePtr = Node*;
-
-
-protected:
 	/// Singly-linked Node
-	struct Node
+	class Node
 	{
-		Node() : value(), next(nullptr) {}
-		Node(T v) : value(v), next(nullptr) {}
-		T value;
-		NodePtr next;
+		friend class SinglyLinkedList;				
+
+	public:
+		Node() : mValue(), mNext(nullptr) {}
+		Node(T v) : mValue(v), mNext(nullptr) {}
+		const T& value() const { return mValue; }
+		T& value() { return mValue; }
+
+	private:
+		using Ptr = Node*;
+		T mValue;
+		Ptr mNext;
 	};
 
 public:
@@ -82,11 +82,11 @@ public:
 	const Node& head();
 
 	/// Returns a reference to the last element of this list
-	const Node& end();
+	const Node& tail();
 
 private:
-	NodePtr mHead;	// Head of the list
-	NodePtr mTail;	// End of the list
+	typename Node::Ptr mHead;	// Head of the list
+	typename Node::Ptr mTail;	// End of the list
 	size_t mSize;	// Keeps a record of the list's size
 
 };
