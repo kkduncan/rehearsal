@@ -19,6 +19,7 @@ set (TRIAL_INC_COLLECTIONS
 )
 
 set (TRIAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
+set (TRIAL_SRC_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 
 
@@ -27,9 +28,10 @@ set (TRIAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
 #===============#
 source_group(include\\core FILES ${TRIAL_INC_CORE})
 source_group(include\\collections FILES ${TRIAL_INC_COLLECTIONS})
+source_group(src FILES ${TRIAL_SRC_MAIN})
 source_group(src\\core FILES ${TRIAL_SRC_CORE})
 source_group(src\\collections FILES ${TRIAL_SRC_COLLECTIONS})
-#source_group(src\\ FILES "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
+
 
 
 #=================#
@@ -38,9 +40,10 @@ source_group(src\\collections FILES ${TRIAL_SRC_COLLECTIONS})
 include_directories(include)
 
 
-add_executable (trial src/main.cpp 
+add_executable (trial 
 	${TRIAL_INC_CORE} 
 	${TRIAL_INC_COLLECTIONS}
 	${TRIAL_SRC_CORE}
 	${TRIAL_SRC_COLLECTIONS}
+	${TRIAL_SRC_MAIN}
 )
