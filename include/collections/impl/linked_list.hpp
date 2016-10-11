@@ -3,6 +3,7 @@
 #include <collections/linked_list.h>
 #include <cstddef>
 #include <iostream>
+#include <set>
 
 template <typename T>
 kd::SinglyLinkedList<T>::SinglyLinkedList() : mHead(nullptr), mTail(nullptr), mSize(0)
@@ -19,7 +20,7 @@ kd::SinglyLinkedList<T>::~SinglyLinkedList()
 template <typename T>
 void kd::SinglyLinkedList<T>::addToFront(const T& val)
 {
-	Node::Ptr newNode (new Node(val));
+	typename Node::Ptr newNode (new Node(val));
 
 	if (mHead == nullptr)
 	{
@@ -37,7 +38,7 @@ void kd::SinglyLinkedList<T>::addToFront(const T& val)
 template <typename T>
 void kd::SinglyLinkedList<T>::addToBack(const T& val)
 {
-	Node::Ptr newNode(new Node(val));
+	typename Node::Ptr newNode(new Node(val));
 
 	if (mTail == nullptr)
 	{
@@ -55,8 +56,8 @@ void kd::SinglyLinkedList<T>::addToBack(const T& val)
 template <typename T>
 bool kd::SinglyLinkedList<T>::remove(const T& val)
 {
-	Node::Ptr prev(mHead);
-	Node::Ptr curr(mHead);	
+	typename Node::Ptr prev(mHead);
+	typename Node::Ptr curr(mHead);	
 	bool found = false;
 
 	while (curr != nullptr && !found)
@@ -111,7 +112,7 @@ void kd::SinglyLinkedList<T>::print() const
 		return;
 	}
 
-	Node::Ptr curr (mHead);	
+	typename Node::Ptr curr (mHead);	
 
 	std::cout << std::endl << __FUNCTION__ << ": List contents(" << mSize << ")" << std::endl;
 	
@@ -130,7 +131,7 @@ void kd::SinglyLinkedList<T>::clear()
 {
 	while (mHead != nullptr)
 	{
-		Node::Ptr nodeToDelete(mHead);
+		typename Node::Ptr nodeToDelete(mHead);
 		mHead = mHead->mNext;
 		delete nodeToDelete;
 	}
