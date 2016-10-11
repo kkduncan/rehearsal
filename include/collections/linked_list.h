@@ -25,7 +25,7 @@
 namespace kd
 {
 /**
- * \brief Singly-Linked List
+ * \brief Singly-Linked List (or Forward List)
  */
 template <typename T>
 class SinglyLinkedList
@@ -56,13 +56,16 @@ public:
 	virtual ~SinglyLinkedList();
 
 	/// Adds an item to the front of the list
-	void addToFront(const T& val);
+	void pushToFront(const T& val);
 
 	/// Adds an item to the end of the list
-	void addToBack(const T& val);
+	void pushToBack(const T& val);
 
 	/// Removes the first occurrence of an item from the list (if it exists)
 	bool remove(const T& val);
+
+	/// Removes the item at the specified index
+	bool remove(const size_t& idx);
 
 	/// Indicates whether the list is empty
 	bool empty() const;

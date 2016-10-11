@@ -17,7 +17,7 @@ kd::SinglyLinkedList<T>::~SinglyLinkedList()
 }
 
 template <typename T>
-void kd::SinglyLinkedList<T>::addToFront(const T& val)
+void kd::SinglyLinkedList<T>::pushToFront(const T& val)
 {
 	Node::Ptr newNode (new Node(val));
 
@@ -35,7 +35,7 @@ void kd::SinglyLinkedList<T>::addToFront(const T& val)
 }
 
 template <typename T>
-void kd::SinglyLinkedList<T>::addToBack(const T& val)
+void kd::SinglyLinkedList<T>::pushToBack(const T& val)
 {
 	Node::Ptr newNode(new Node(val));
 
@@ -91,6 +91,55 @@ bool kd::SinglyLinkedList<T>::remove(const T& val)
 		
 		prev = curr;
 		curr = curr->mNext;		
+	}
+
+	return found;
+}
+
+template <typename T>
+bool kd::SinglyLinkedList<T>::remove(const size_t& idx)
+{
+	if (idx < 0 || idx >= mSize)
+	{
+		return false;
+	}
+
+	Node::Ptr prev(mHead);
+	Node::Ptr curr(mHead);
+	bool found = false;
+
+	while (curr != nullptr && !found)
+	{
+		if (curr->mValue == val)
+		{
+			if (curr == mHead)
+			{
+				mHead = curr->mNext;
+
+				if (curr == mTail)
+				{
+					mTail = curr->mNext;
+				}
+				delete curr;
+			}
+			else if (curr == mTail)
+			{
+				mTail = prev;
+				mTail->mNext = nullptr;
+				delete curr;
+			}
+			else
+			{
+				prev->mNext = curr->mNext;
+				delete curr;
+			}
+
+			--mSize;
+			found = true;
+		}
+
+		prev = curr;
+		curr = curr->mNext;
 	}
 
 	return found;

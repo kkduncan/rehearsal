@@ -7,11 +7,11 @@ int main(int argc, char *argv[])
 	std::cout << "[    Commencing    ]" << std::endl;
 	kd::SinglyLinkedList<int> list;
 
-	list.addToFront(1);
-	list.addToFront(2);
-	list.addToFront(3);
-	list.addToFront(4);
- 	list.addToFront(5);
+	list.pushToFront(1);
+	list.pushToFront(2);
+	list.pushToFront(3);
+	list.pushToFront(4);
+ 	list.pushToFront(5);
 	list.print();
 
 	kd::SinglyLinkedList<int>::Node head = list.head();	
