@@ -19,8 +19,102 @@
 #ifndef KD_TRIAL_TREE_H_
 #define KD_TRIAL_TREE_H_
 
+#include <vector>
+
 namespace kd
 {
+    /**
+     * \brief Tree traversal methods
+     */
+    enum TreeTraversal
+    {
+        PreOrder = 0,
+        InOrder,
+        PostOrder,
+        LevelOrder
+    };
+    
+    /*
+     * Binary Search Tree
+     */
+    template <typename T>
+    class BSTree
+    {
+    public:
+        /// Tree Node
+        class Node
+        {
+            friend class BSTree;
+            
+        public:
+            Node() : mValue(), mLeft(nullptr), mRight(nullptr) {}
+            Node(T v) : mValue(v), mLeft(nullptr), mRight(nullptr) {}
+            const T& value() const { return mValue; }
+            T& value() { return mValue; }
+            
+        protected:
+            /// Alias for a pointer to a BST node
+            using Ptr = Node*;
+            T mValue;
+            Ptr mLeft;
+            Ptr mRight;
+        };
+        
+    public:
+        /// Constructor
+        BSTree();
+        
+        /// Destructor
+        virtual ~BSTree();
+        
+        /// Insert an element in the tree
+        void insert(const T& val);
+        
+        /// Search for an element
+        bool search(const T& val) const;
+        
+        /// Remove an element from the tree (if it exists)
+        bool remove(const T& val);
+        
+        /// Check to see if the tree is empty
+        bool isEmpty() const;
+        
+        /// Get the number of elements in the tree
+        size_t size() const;
+        
+        /// Get the height of the tree
+        int height() const;
+        
+        // Clear the contents of the tree
+        void clear();
+        
+        /// Get a list of the elements in the tree according to the traversal method
+        std::vector<T> getElementList(const TreeTraversal& traversal = InOrder) const;
+        
+    private:
+        /// Get the elements of the tree via Pre-Order traversal
+        void getElementsPreOrder(typename Node::Ptr node, std::vector<T>& elems) const;
+        
+        /// Get the elements of the tree via In-Order traversal
+        void getElementsInOrder(typename Node::Ptr node, std::vector<T>& elems) const;
+        
+        /// Get the elements of the tree via Post-Order traversal
+        void getElementsPostOrder(typename Node::Ptr node, std::vector<T>& elems) const;
+        
+        /// Get the elements of the tree via Level-Order traversal
+        void getElementsLevelOrder(typename Node::Ptr node, std::vector<T>& elems) const;
+        
+        
+    private:
+        /// The root of the tree
+        typename Node::Ptr mRoot;
+        
+        /// The number of elements in the tree
+        size_t mSize;
+        
+    };
+    
+    
     /*
      * Red-Black Tree (balanced binary tree)
      *
@@ -45,7 +139,16 @@ namespace kd
      *  o https://gist.github.com/mgechev/5911348
      *  o 
      */
+    template <typename T>
+    class RBTree
+    {
+        // TODO: Implement
+    };
 }
+
+
+// Include implementation
+#include <collections/impl/tree.hpp>
 
 
 #endif /* KD_TRIAL_TREE_H_ */

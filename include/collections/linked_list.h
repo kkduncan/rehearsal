@@ -42,7 +42,7 @@ public:
 		const T& value() const { return mValue; }
 		T& value() { return mValue; }
 
-	private:
+	protected:
 		using Ptr = Node*;
 		T mValue;
 		Ptr mNext;

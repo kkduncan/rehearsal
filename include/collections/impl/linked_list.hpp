@@ -3,7 +3,6 @@
 #include <collections/linked_list.h>
 #include <cstddef>
 #include <iostream>
-#include <set>
 
 template <typename T>
 kd::SinglyLinkedList<T>::SinglyLinkedList() : mHead(nullptr), mTail(nullptr), mSize(0)
@@ -105,13 +104,14 @@ bool kd::SinglyLinkedList<T>::remove(const size_t& idx)
 		return false;
 	}
 
-	Node::Ptr prev(mHead);
-	Node::Ptr curr(mHead);
+	typename Node::Ptr prev(mHead);
+	typename Node::Ptr curr(mHead);
 	bool found = false;
+    auto currIdx = 0;
 
 	while (curr != nullptr && !found)
 	{
-		if (curr->mValue == val)
+		if (idx == currIdx)
 		{
 			if (curr == mHead)
 			{
@@ -141,6 +141,7 @@ bool kd::SinglyLinkedList<T>::remove(const size_t& idx)
 
 		prev = curr;
 		curr = curr->mNext;
+        ++currIdx;
 	}
 
 	return found;
