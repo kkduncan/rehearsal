@@ -2,6 +2,7 @@
 
 #include <collections/tree.h>
 #include <functional>
+#include <algorithm>
 
 template <typename T>
 kd::BSTree<T>::BSTree() : mRoot(nullptr), mSize(0)
@@ -12,7 +13,7 @@ kd::BSTree<T>::BSTree() : mRoot(nullptr), mSize(0)
 template <typename T>
 kd::BSTree<T>::~BSTree()
 {
-	
+	this->clear();
 }
 
 template <typename T>
@@ -54,6 +55,151 @@ void kd::BSTree<T>::insert(const T& val)
 }
 
 template <typename T>
+bool kd::BSTree<T>::remove(const T& val)
+{
+	static std::function<bool(typename Node::Ptr, typename Node::Ptr, const T&)> removeHelper = 
+		[&](typename Node::Ptr parentNode, typename Node::Ptr currNode, const int& val)
+	{
+		if (currNode == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			if (currNode->mValue == val)
+			{
+				// Case 1: Node is a leaf  --AND--
+				// Case 2: Node has one child
+				if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
+				{
+					Node::Ptr tempNode = currNode->mLeft;
+
+					if (currNode->mRight != nullptr)
+					{
+						tempNode = currNode->mRight;
+					}
+
+					if (parentNode != nullptr)
+					{
+						if (parentNode->mLeft == currNode)
+						{
+							parentNode->mLeft = tempNode;
+						}
+						else
+						{
+							parentNode->mRight = tempNode;
+						}
+					}
+					else
+					{
+						this->mRoot = tempNode;
+					}
+				}
+				// Case 3: Has two children
+				else
+				{
+					const T& minRightTreeVal = this->getMin(currNode->mRight);
+					currNode->mValue = minRightTreeVal;
+					removeHelper(currNode, currNode->mRight, minRightTreeVal);
+				}
+
+				delete currNode;
+				--mSize;
+				return true;
+			}
+			else
+			{
+				return removeHelper(currNode, currNode->mLeft, val) || removeHelper(currNode, currNode->mRight, val);
+			}
+		}
+	};
+
+	return removeHelper(nullptr, this->mRoot, val);
+}
+
+template <typename T>
+bool kd::BSTree<T>::find(const T& val) const
+{
+	static std::function <bool(typename Node::Ptr, const T&)> findHelper = [&](typename Node::Ptr node, 
+																			   const T& val)
+	{
+		if (node == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			if (node->mValue == val)
+			{
+				return true;
+			}
+			else if (node->mValue > val)
+			{
+				return findHelper(node->mLeft, val);
+			}
+			else
+			{
+				return findHelper(node->mRight, val);
+			}
+		}
+	};
+
+	return findHelper(this->mRoot, val);	
+}
+
+template <typename T>
+const T kd::BSTree<T>::getMax(typename Node::Ptr aNode) const
+{
+	if (aNode == nullptr)
+	{
+		return std::numeric_limits<T>::min();
+	}
+	else
+	{
+		if (aNode->mRight == nullptr)
+		{
+			return aNode->mValue;
+		}
+		else
+		{
+			return getMax(aNode->mRight);
+		}
+	}
+};
+
+template <typename T>
+const T kd::BSTree<T>::getMax() const
+{
+	return getMax(this->mRoot);
+}
+
+template <typename T>
+const T kd::BSTree<T>::getMin(typename Node::Ptr aNode) const
+{
+	if(aNode == nullptr)
+	{
+		return std::numeric_limits<T>::max();
+	}
+		else
+		{
+			if (aNode->mLeft == nullptr)
+			{
+				return aNode->mValue;
+			}
+			else
+			{
+				return getMin(aNode->mLeft);
+			}
+		}
+};
+
+template <typename T>
+const T kd::BSTree<T>::getMin() const
+{
+	return getMin(this->mRoot);
+}
+
+template <typename T>
 bool kd::BSTree<T>::isEmpty() const
 {
     return this->mRoot == nullptr;
@@ -76,22 +222,33 @@ int kd::BSTree<T>::height() const
         }
         else
         {
-            auto leftHeight = heightHelper(node->mLeft);
-            auto rightHeight = heightHelper(node->mRight);
-            
-            if (leftHeight > rightHeight)
-            {
-                return leftHeight + 1;
-            }
-            else
-            {
-                return rightHeight + 1;
-            }
+            return 1 + std::max(heightHelper(node->mLeft), heightHelper(node->mRight));
         }
     };
     
     auto h = heightHelper(this->mRoot);
     return h >= 0 ? h : 0;
+}
+
+template <typename T>
+void kd::BSTree<T>::clear()
+{
+	static std::function<void(typename Node::Ptr&)> clearHelper = [&](typename Node::Ptr& aNode)
+	{
+		if (aNode == nullptr)
+		{
+			return;
+		}
+
+		clearHelper(aNode->mLeft);
+		clearHelper(aNode->mRight);
+		delete aNode;
+		aNode = nullptr;
+
+		--mSize;		
+	};
+
+	clearHelper(this->mRoot);
 }
 
 template <typename T>
@@ -137,8 +294,8 @@ template <typename T>
 void kd::BSTree<T>::getElementsLevelOrder(typename Node::Ptr node, std::vector<T>& elems) const
 {
     std::function<void (typename Node::Ptr, int, std::vector<T>&)> getLevelElems = [&] (typename Node::Ptr node,
-                                                                                       int level,
-                                                                                       std::vector<T>& elems)
+                                                                                        int level,
+                                                                                        std::vector<T>& elems)
     {
         if (node == nullptr)
         {

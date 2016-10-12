@@ -69,13 +69,19 @@ namespace kd
         
         /// Insert an element in the tree
         void insert(const T& val);
+
+		/// Delete an element from the tree (if it exists)
+		bool remove(const T& val);
         
         /// Search for an element
-        bool search(const T& val) const;
-        
-        /// Remove an element from the tree (if it exists)
-        bool remove(const T& val);
-        
+        bool find(const T& val) const;
+
+		/// Get the maximum value
+		const T getMax() const;
+
+		/// Get the minimum value
+		const T getMin() const;
+
         /// Check to see if the tree is empty
         bool isEmpty() const;
         
@@ -92,6 +98,12 @@ namespace kd
         std::vector<T> getElementList(const TreeTraversal& traversal = InOrder) const;
         
     private:
+		/// Get the maximum value
+		const T getMax(typename Node::Ptr node) const;
+
+		/// Get the minimum value
+		const T getMin(typename Node::Ptr node) const;
+
         /// Get the elements of the tree via Pre-Order traversal
         void getElementsPreOrder(typename Node::Ptr node, std::vector<T>& elems) const;
         
@@ -110,8 +122,7 @@ namespace kd
         typename Node::Ptr mRoot;
         
         /// The number of elements in the tree
-        size_t mSize;
-        
+        size_t mSize;        
     };
     
     
