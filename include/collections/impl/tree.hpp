@@ -346,9 +346,32 @@ std::vector<T> kd::BSTree<T>::getElementList(const TreeTraversal& traversal /* =
             break;
     }
     
-    return std::move(elems);
-    
+    return std::move(elems);    
 }
 
+
+template <typename T>
+kd::RBTree<T>::RBTree() : kd::BSTree<T>()
+{
+
+}
+
+template <typename T>
+kd::RBTree<T>::~RBTree()
+{
+	this->clear();
+}
+
+template <typename T>
+void kd::RBTree<T>::insert(const T& val)
+{
+	kd::BSTree<T>::insert(val);
+}
+
+template <typename T>
+bool kd::RBTree<T>::remove(const T& val)
+{
+	return kd::BSTree<T>::remove(val);
+}
 
 

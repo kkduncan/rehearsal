@@ -36,6 +36,9 @@ namespace kd
     
     /*
      * Binary Search Tree
+	 *
+	 * Reference implementation
+	 *  o https://gist.github.com/mgechev/5911348
      */
     template <typename T>
     class BSTree
@@ -68,10 +71,10 @@ namespace kd
         virtual ~BSTree();
         
         /// Insert an element in the tree
-        void insert(const T& val);
+        virtual void insert(const T& val);
 
 		/// Delete an element from the tree (if it exists)
-		bool remove(const T& val);
+		virtual bool remove(const T& val);
         
         /// Search for an element
         bool find(const T& val) const;
@@ -136,24 +139,47 @@ namespace kd
      *  4. Every path from the root node to a leaf node (NULL node) has the same number of black nodes.
      *
      * The height of a red black tree is always O(logN)
-     * Red-Black Tree Operations:
-     *  o insert
-     *  o search
-     *  o remove / delete
-     *  o max / min
-     *  o getList
      *
      * Site List:
      *  o https://www.topcoder.com/community/data-science/data-science-tutorials/an-introduction-to-binary-search-and-red-black-trees/
      *  o http://code.geeksforgeeks.org/NtLnIk
      *  o http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/
-     *  o https://gist.github.com/mgechev/5911348
-     *  o 
      */
     template <typename T>
-    class RBTree
+    class RBTree : public BSTree<T>
     {
-        // TODO: Implement
+	public:
+		/// Red-Black Tree Node
+		class RBNode : public BSTree<T>::Node
+		{
+			friend class RBTree;
+
+		public:
+			RBNode() : Node(), mColor(true) {}
+			RBNode(T v) : Node(v), mColor(true) {}
+			const bool& color() const { return mColor; }
+			bool& color() { return mColor; }
+
+		private:
+			/// Alias for a pointer to a BST node
+			using Ptr = RBNode*;
+
+			/// Node color (RED = true, BLACK = false)
+			bool mColor;			
+		};
+
+	public:
+		/// Constructor
+		RBTree();
+
+		/// Destructor
+		virtual ~RBTree();
+
+		/// Insert an element in the tree (with automatic balancing)
+		virtual void insert(const T& val);
+
+		/// Delete an element from the tree with (with automatic balancing)
+		virtual bool remove(const T& val);
     };
 }
 

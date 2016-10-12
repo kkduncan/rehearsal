@@ -45,22 +45,22 @@ int main(int argc, char *argv[])
     
 	////////////////////////////////////////////////////////////////////////////
 
-    std::cout << "[  Commencing Tree Eval  ]" << std::endl;
-    kd::BSTree<int> tree;
+    std::cout << "[  Commencing BST Eval  ]" << std::endl;
+    kd::BSTree<int> bst;
     
-    tree.insert(2);
-	tree.insert(1);
-	tree.insert(3);
-	tree.insert(11);
-	tree.insert(4);
-	tree.insert(5);
+    bst.insert(2);
+	bst.insert(1);
+	bst.insert(3);
+	bst.insert(11);
+	bst.insert(4);
+	bst.insert(5);
     
-    auto elemList = tree.getElementList(kd::TreeTraversal::PostOrder);
+    auto elemList = bst.getElementList(kd::TreeTraversal::PostOrder);
 
-	std::cout << "Is the value 11 in the list? --> " << std::boolalpha << tree.find(11) << std::endl;
-	std::cout << "Is the value 13 in the list? --> " << std::boolalpha << tree.find(13) << std::endl;
+	std::cout << "Is the value 11 in the list? --> " << std::boolalpha << bst.find(11) << std::endl;
+	std::cout << "Is the value 13 in the list? --> " << std::boolalpha << bst.find(13) << std::endl;
     
-    std::cout << "Tree Height: " << tree.height() << std::endl;    
+    std::cout << "Tree Height: " << bst.height() << std::endl;    
     std::cout << "Tree contents:" << std::endl;
     for (auto e : elemList)
     {
@@ -68,25 +68,30 @@ int main(int argc, char *argv[])
     }
     std::cout << std::endl;
 
-	std::cout << "Max value in the tree is --> " << tree.getMax() << std::endl;
-	std::cout << "Min value in the tree is --> " << tree.getMin() << std::endl;
+	std::cout << "Max value in the tree is --> " << bst.getMax() << std::endl;
+	std::cout << "Min value in the tree is --> " << bst.getMin() << std::endl;
 
-	std::cout << "Delete the value 11 --> " << std::boolalpha << tree.remove(11) << std::endl;
+	std::cout << "Delete the value 11 --> " << std::boolalpha << bst.remove(11) << std::endl;
 	
 	std::cout << "Tree contents after deletion:" << std::endl;
-	elemList = tree.getElementList(kd::TreeTraversal::PostOrder);
+	elemList = bst.getElementList(kd::TreeTraversal::PostOrder);
 	for (auto e : elemList)
 	{
 		std::cout << e << " ";
 	}
 	std::cout << std::endl;
 
-	std::cout << "Clearing tree of size: " << tree.size() << std::endl;
-	tree.clear();
-	std::cout << "Current tree size: " << tree.size() << std::endl;    
+	std::cout << "Clearing tree of size: " << bst.size() << std::endl;
+	bst.clear();
+	std::cout << "Current tree size: " << bst.size() << std::endl;    
     
+	////////////////////////////////////////////////////////////////////////////
+
+	std::cout << "[  Commencing Red-Black Tree Eval  ]" << std::endl;
+	kd::RBTree<int> rbTree;
 
 	std::cout << std::endl << std::endl << "> Done...press enter to exit" << std::endl;
 	std::cin.get();
+
 	return 0;
 }
