@@ -138,12 +138,12 @@ namespace kd
      *  3. There are no two adjacent red nodes. Therefore, a red node can't have a red parent or red child.
      *  4. Every path from the root node to a leaf node (NULL node) has the same number of black nodes.
      *
-     * The height of a red black tree is always O(logN)
+     * The height of a red black tree is always O(logN), therefore all the operations are O(logN)
      *
      * Site List:
-     *  o https://www.topcoder.com/community/data-science/data-science-tutorials/an-introduction-to-binary-search-and-red-black-trees/
      *  o http://code.geeksforgeeks.org/NtLnIk
      *  o http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/
+     *  o https://github.com/zyi23/Red-Black-Tree/blob/master/rbtree.cpp
      */
     template <typename T>
     class RBTree : public BSTree<T>
@@ -155,17 +155,24 @@ namespace kd
 			friend class RBTree;
 
 		public:
-			RBNode() : Node(), mColor(true) {}
-			RBNode(T v) : Node(v), mColor(true) {}
+            /// Node color
+            enum Color
+            {
+                Red,
+                Black
+            };
+            
+            RBNode() : BSTree<T>::Node(), mColor(Red) {}
+			RBNode(T v) : BSTree<T>::Node(v), mColor(Red) {}
 			const bool& color() const { return mColor; }
-			bool& color() { return mColor; }
+			Color& color() { return mColor; }
 
 		private:
 			/// Alias for a pointer to a BST node
 			using Ptr = RBNode*;
 
 			/// Node color (RED = true, BLACK = false)
-			bool mColor;			
+			Color mColor;
 		};
 
 	public:
