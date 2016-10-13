@@ -144,6 +144,8 @@ namespace kd
      *  o http://code.geeksforgeeks.org/NtLnIk
      *  o http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/
      *  o https://github.com/zyi23/Red-Black-Tree/blob/master/rbtree.cpp
+     *  o http://pages.cs.wisc.edu/~paton/readings/Red-Black-Trees/
+     *  o http://cs.lmu.edu/~ray/notes/redblacktrees/
      */
     template <typename T>
     class RBTree : public BSTree<T>
