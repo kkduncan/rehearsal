@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "collections/linked_list.h"
 #include "collections/bst.h"
+#include "collections/rbtree.h"
 
 int main(int argc, char *argv[])
 {
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
 	bst.insert(4);
 	bst.insert(5);
     
-    auto elemList = bst.getElementList(kd::TreeTraversal::PostOrder);
+    auto elemList = bst.getElementList(kd::BSTree<int>::Traversal::PostOrder);
 
 	std::cout << "Is the value 11 in the list? --> " << std::boolalpha << bst.find(11) << std::endl;
 	std::cout << "Is the value 13 in the list? --> " << std::boolalpha << bst.find(13) << std::endl;
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
 	std::cout << "Delete the value 11 --> " << std::boolalpha << bst.remove(11) << std::endl;
 	
 	std::cout << "Tree contents after deletion:" << std::endl;
-	elemList = bst.getElementList(kd::TreeTraversal::PostOrder);
+	elemList = bst.getElementList(kd::BSTree<int>::Traversal::PostOrder);
 	for (auto e : elemList)
 	{
 		std::cout << e << " ";

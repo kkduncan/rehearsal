@@ -1,27 +1,27 @@
-// Implementation of Binary Search Tree
+// Implementation of tree.h
 
-#include <collections/bst.h>
+#include <collections/rbtree.h>
 #include <functional>
 #include <algorithm>
 
 template <typename T>
-kd::BSTree<T>::BSTree() : mRoot(nullptr), mSize(0)
+kd::RBTree<T>::RBTree() : mRoot(nullptr), mSize(0)
 {
-
+    
 }
 
 template <typename T>
-kd::BSTree<T>::~BSTree()
+kd::RBTree<T>::~RBTree()
 {
 	this->clear();
 }
 
 template <typename T>
-void kd::BSTree<T>::insert(const T& val)
+void kd::RBTree<T>::insert(const T& val)
 {
     // Lambda to assist with insertions
-    static std::function<bool (typename Node::Ptr&, const typename Node::Ptr)> insertHelper = [&] (typename Node::Ptr& currNode,
-                                                                                                   const typename Node::Ptr newNode)
+    static std::function <bool (typename RBNode::Ptr&, const typename RBNode::Ptr)> insertHelper = [&] (typename RBNode::Ptr& currNode,
+                                                                                                        const typename RBNode::Ptr newNode)
     {
         if (currNode == nullptr)
         {
@@ -47,7 +47,7 @@ void kd::BSTree<T>::insert(const T& val)
         return true;
     };
     
-    typename Node::Ptr newNode = new Node(val);
+    typename RBNode::Ptr newNode = new RBNode(val);
     if (insertHelper(this->mRoot, newNode))
     {
         ++mSize;
@@ -55,10 +55,10 @@ void kd::BSTree<T>::insert(const T& val)
 }
 
 template <typename T>
-bool kd::BSTree<T>::remove(const T& val)
+bool kd::RBTree<T>::remove(const T& val)
 {
-	static std::function<bool(typename Node::Ptr, typename Node::Ptr, const T&)> removeHelper = 
-		[&](typename Node::Ptr parentNode, typename Node::Ptr currNode, const int& val)
+	static std::function<bool(typename RBNode::Ptr, typename RBNode::Ptr, const T&)> removeHelper =
+		[&](typename RBNode::Ptr parentNode, typename RBNode::Ptr currNode, const int& val)
 	{
 		if (currNode == nullptr)
 		{
@@ -72,7 +72,7 @@ bool kd::BSTree<T>::remove(const T& val)
 				// Case 2: Node has one child
 				if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
 				{
-					typename Node::Ptr tempNode = currNode->mLeft;
+					typename RBNode::Ptr tempNode = currNode->mLeft;
 
 					if (currNode->mRight != nullptr)
 					{
@@ -118,9 +118,9 @@ bool kd::BSTree<T>::remove(const T& val)
 }
 
 template <typename T>
-bool kd::BSTree<T>::find(const T& val) const
+bool kd::RBTree<T>::find(const T& val) const
 {
-	static std::function <bool(typename Node::Ptr, const T&)> findHelper = [&](typename Node::Ptr node, 
+	static std::function <bool(typename RBNode::Ptr, const T&)> findHelper = [&](typename RBNode::Ptr node,
 																			   const T& val)
 	{
 		if (node == nullptr)
@@ -148,7 +148,7 @@ bool kd::BSTree<T>::find(const T& val) const
 }
 
 template <typename T>
-const T kd::BSTree<T>::getMax(typename Node::Ptr aNode) const
+const T kd::RBTree<T>::getMax(typename RBNode::Ptr aNode) const
 {
 	if (aNode == nullptr)
 	{
@@ -168,13 +168,13 @@ const T kd::BSTree<T>::getMax(typename Node::Ptr aNode) const
 };
 
 template <typename T>
-const T kd::BSTree<T>::getMax() const
+const T kd::RBTree<T>::getMax() const
 {
 	return getMax(this->mRoot);
 }
 
 template <typename T>
-const T kd::BSTree<T>::getMin(typename Node::Ptr aNode) const
+const T kd::RBTree<T>::getMin(typename RBNode::Ptr aNode) const
 {
 	if(aNode == nullptr)
 	{
@@ -194,27 +194,27 @@ const T kd::BSTree<T>::getMin(typename Node::Ptr aNode) const
 };
 
 template <typename T>
-const T kd::BSTree<T>::getMin() const
+const T kd::RBTree<T>::getMin() const
 {
 	return getMin(this->mRoot);
 }
 
 template <typename T>
-bool kd::BSTree<T>::isEmpty() const
+bool kd::RBTree<T>::isEmpty() const
 {
     return this->mRoot == nullptr;
 }
 
 template <typename T>
-size_t kd::BSTree<T>::size() const
+size_t kd::RBTree<T>::size() const
 {
     return mSize;
 }
 
 template <typename T>
-int kd::BSTree<T>::height() const
+int kd::RBTree<T>::height() const
 {
-    static std::function<int (typename Node::Ptr)> heightHelper = [&](typename Node::Ptr node)
+    static std::function<int (typename RBNode::Ptr)> heightHelper = [&](typename RBNode::Ptr node)
     {
         if (node == nullptr)
         {
@@ -231,9 +231,9 @@ int kd::BSTree<T>::height() const
 }
 
 template <typename T>
-void kd::BSTree<T>::clear()
+void kd::RBTree<T>::clear()
 {
-	static std::function<void(typename Node::Ptr&)> clearHelper = [&](typename Node::Ptr& aNode)
+	static std::function<void(typename RBNode::Ptr&)> clearHelper = [&](typename RBNode::Ptr& aNode)
 	{
 		if (aNode == nullptr)
 		{
@@ -252,7 +252,7 @@ void kd::BSTree<T>::clear()
 }
 
 template <typename T>
-void kd::BSTree<T>::getElementsPreOrder(typename Node::Ptr node, std::vector<T>& elems) const
+void kd::RBTree<T>::getElementsPreOrder(typename RBNode::Ptr node, std::vector<T>& elems) const
 {
     if (node == nullptr)
     {
@@ -265,7 +265,7 @@ void kd::BSTree<T>::getElementsPreOrder(typename Node::Ptr node, std::vector<T>&
 }
 
 template <typename T>
-void kd::BSTree<T>::getElementsInOrder(typename Node::Ptr node, std::vector<T>& elems) const
+void kd::RBTree<T>::getElementsInOrder(typename RBNode::Ptr node, std::vector<T>& elems) const
 {
     if (node == nullptr)
     {
@@ -278,7 +278,7 @@ void kd::BSTree<T>::getElementsInOrder(typename Node::Ptr node, std::vector<T>& 
 }
 
 template <typename T>
-void kd::BSTree<T>::getElementsPostOrder(typename Node::Ptr node, std::vector<T>& elems) const
+void kd::RBTree<T>::getElementsPostOrder(typename RBNode::Ptr node, std::vector<T>& elems) const
 {
     if (node == nullptr)
     {
@@ -291,11 +291,11 @@ void kd::BSTree<T>::getElementsPostOrder(typename Node::Ptr node, std::vector<T>
 }
 
 template <typename T>
-void kd::BSTree<T>::getElementsLevelOrder(typename Node::Ptr node, std::vector<T>& elems) const
+void kd::RBTree<T>::getElementsLevelOrder(typename RBNode::Ptr node, std::vector<T>& elems) const
 {
-    std::function<void (typename Node::Ptr, int, std::vector<T>&)> getLevelElems = [&] (typename Node::Ptr node,
-                                                                                        int level,
-                                                                                        std::vector<T>& elems)
+    std::function<void (typename RBNode::Ptr, int, std::vector<T>&)> getLevelElems = [&] (typename RBNode::Ptr node,
+                                                                                          int level,
+                                                                                          std::vector<T>& elems)
     {
         if (node == nullptr)
         {
@@ -322,7 +322,7 @@ void kd::BSTree<T>::getElementsLevelOrder(typename Node::Ptr node, std::vector<T
 
 
 template <typename T>
-std::vector<T> kd::BSTree<T>::getElementList(const Traversal& traversal /* = InOrder */) const
+std::vector<T> kd::RBTree<T>::getElementList(const Traversal& traversal /* = InOrder */) const
 {
     std::vector<T> elems;
     elems.reserve(mSize);

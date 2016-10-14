@@ -16,24 +16,13 @@
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_TREE_H_
-#define KD_TRIAL_TREE_H_
+#ifndef KD_TRIAL_BST_H_
+#define KD_TRIAL_BST_H_
 
 #include <vector>
 
 namespace kd
 {
-    /**
-     * \brief Tree traversal methods
-     */
-    enum TreeTraversal
-    {
-        PreOrder = 0,
-        InOrder,
-        PostOrder,
-        LevelOrder
-    };
-    
     /**
      * \brief Binary Search Tree
      */
@@ -41,6 +30,17 @@ namespace kd
     class BSTree
     {
     public:
+        /**
+         * \brief Tree traversal methods
+         */
+        enum Traversal
+        {
+            PreOrder = 0,
+            InOrder,
+            PostOrder,
+            LevelOrder
+        };
+        
         /// Tree Node
         class Node
         {
@@ -95,7 +95,7 @@ namespace kd
         void clear();
         
         /// Get a list of the elements in the tree according to the traversal method
-        std::vector<T> getElementList(const TreeTraversal& traversal = InOrder) const;
+        std::vector<T> getElementList(const Traversal& traversal = InOrder) const;
         
     protected:
 		/// Get the maximum value
@@ -125,87 +125,11 @@ namespace kd
         size_t mSize;        
     };
     
-    
-    /*
-     * Red-Black Tree (balanced binary tree)
-     *
-     * Properties:
-     *  1. Every node has a color, either red or black
-     *  2. The root of the tree is always black.
-     *  3. There are no two adjacent red nodes. Therefore, a red node can't have a red parent or red child.
-     *  4. Every path from the root node to a leaf node (NULL node) has the same number of black nodes.
-     *
-     * The height of a red black tree is always O(logN), therefore all the operations are O(logN)
-     *
-     */
-    template <typename T>
-    class RBTree
-    {
-	public:
-		/// Red-Black Tree Node
-		class RBNode
-		{
-			friend class RBTree;
-            
-        public:
-            /// Node color
-            enum Color
-            {
-                Red,
-                Black
-            };
-            
-            RBNode() : mValue(), mLeft(nullptr), mRight(nullptr), mParent(nullptr), mColor(Red) {}
-			RBNode(T v) : mValue(v), mLeft(nullptr), mRight(nullptr), mParent(nullptr), mColor(Red)  {}
-            
-            const T& value() const { return mValue; }
-            T& value() { return mValue; }
-            
-            const bool& color() const { return mColor; }
-			Color& color() { return mColor; }
-            
-            
-        public:
-            
-
-		protected:
-            /// Alias for a pointer to a BST node
-			using Ptr = RBNode*;
-            
-            /// Stored data at node
-            T mValue;
-            
-            /// Parent node
-            Ptr mParent;
-            
-            /// Left child
-            Ptr mLeft;
-            
-            /// Right child
-            Ptr mRight;
-
-			/// Node color
-			Color mColor;
-		};
-
-	public:
-		/// Constructor
-		RBTree();
-
-		/// Destructor
-		virtual ~RBTree();
-
-		/// Insert an element in the tree (with automatic balancing)
-		virtual void insert(const T& val);
-
-		/// Delete an element from the tree with (with automatic balancing)
-		virtual bool remove(const T& val);
-    };
-}
+} // namespace kd
 
 
 // Include implementation
-#include <collections/impl/tree.hpp>
+#include <collections/impl/bst.hpp>
 
 
-#endif /* KD_TRIAL_TREE_H_ */
+#endif /* KD_TRIAL_BST_H_ */
