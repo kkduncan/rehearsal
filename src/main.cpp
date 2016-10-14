@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "collections/linked_list.h"
-#include "collections/tree.h"
+#include "collections/bst.h"
 
 int main(int argc, char *argv[])
 {

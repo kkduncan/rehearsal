@@ -16,8 +16,8 @@ set (TRIAL_INC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/include/core/core.h)
 set (TRIAL_INC_COLLECTIONS 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/linked_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/impl/linked_list.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/collections/tree.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/impl/tree.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/collections/bst.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/impl/bst.hpp
 )
 
 set (TRIAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)

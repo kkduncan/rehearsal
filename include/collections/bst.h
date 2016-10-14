@@ -34,11 +34,8 @@ namespace kd
         LevelOrder
     };
     
-    /*
-     * Binary Search Tree
-	 *
-	 * Reference implementation
-	 *  o https://gist.github.com/mgechev/5911348
+    /**
+     * \brief Binary Search Tree
      */
     template <typename T>
     class BSTree
@@ -100,7 +97,7 @@ namespace kd
         /// Get a list of the elements in the tree according to the traversal method
         std::vector<T> getElementList(const TreeTraversal& traversal = InOrder) const;
         
-    private:
+    protected:
 		/// Get the maximum value
 		const T getMax(typename Node::Ptr node) const;
 
@@ -120,7 +117,7 @@ namespace kd
         void getElementsLevelOrder(typename Node::Ptr node, std::vector<T>& elems) const;
         
         
-    private:
+    protected:
         /// The root of the tree
         typename Node::Ptr mRoot;
         
@@ -140,23 +137,17 @@ namespace kd
      *
      * The height of a red black tree is always O(logN), therefore all the operations are O(logN)
      *
-     * Site List:
-     *  o http://code.geeksforgeeks.org/NtLnIk
-     *  o http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/
-     *  o https://github.com/zyi23/Red-Black-Tree/blob/master/rbtree.cpp
-     *  o http://pages.cs.wisc.edu/~paton/readings/Red-Black-Trees/
-     *  o http://cs.lmu.edu/~ray/notes/redblacktrees/
      */
     template <typename T>
-    class RBTree : public BSTree<T>
+    class RBTree
     {
 	public:
 		/// Red-Black Tree Node
-		class RBNode : public BSTree<T>::Node
+		class RBNode
 		{
 			friend class RBTree;
-
-		public:
+            
+        public:
             /// Node color
             enum Color
             {
@@ -164,16 +155,36 @@ namespace kd
                 Black
             };
             
-            RBNode() : BSTree<T>::Node(), mColor(Red) {}
-			RBNode(T v) : BSTree<T>::Node(v), mColor(Red) {}
-			const bool& color() const { return mColor; }
+            RBNode() : mValue(), mLeft(nullptr), mRight(nullptr), mParent(nullptr), mColor(Red) {}
+			RBNode(T v) : mValue(v), mLeft(nullptr), mRight(nullptr), mParent(nullptr), mColor(Red)  {}
+            
+            const T& value() const { return mValue; }
+            T& value() { return mValue; }
+            
+            const bool& color() const { return mColor; }
 			Color& color() { return mColor; }
+            
+            
+        public:
+            
 
-		private:
-			/// Alias for a pointer to a BST node
+		protected:
+            /// Alias for a pointer to a BST node
 			using Ptr = RBNode*;
+            
+            /// Stored data at node
+            T mValue;
+            
+            /// Parent node
+            Ptr mParent;
+            
+            /// Left child
+            Ptr mLeft;
+            
+            /// Right child
+            Ptr mRight;
 
-			/// Node color (RED = true, BLACK = false)
+			/// Node color
 			Color mColor;
 		};
 
