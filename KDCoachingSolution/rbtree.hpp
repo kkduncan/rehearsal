@@ -1,5 +1,5 @@
 // Implementation of RBTree.h
-#include <collections/rbtree.h>
+#include "rbtree.h"
 #include <functional>
 #include <algorithm>
 
@@ -85,6 +85,7 @@ void RBTree<T>::insert(const T& val)
 	while (currNode != this->mNilNode)
 	{
 		prevNode = currNode;
+
 		if (val == currNode->mValue)
 		{
 			// Avoids duplicates

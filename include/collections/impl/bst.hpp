@@ -1,5 +1,4 @@
 // Implementation of Binary Search Tree
-
 #include <collections/bst.h>
 #include <functional>
 #include <algorithm>
@@ -72,7 +71,7 @@ bool kd::BSTree<T>::remove(const T& val)
 				// Case 2: Node has one child
 				if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
 				{
-					typename Node::Ptr tempNode = currNode->mLeft;
+					kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
 
 					if (currNode->mRight != nullptr)
 					{

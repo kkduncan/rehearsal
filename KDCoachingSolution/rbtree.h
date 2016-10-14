@@ -1,23 +1,11 @@
 /**
- *  This is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * trial is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with trial.  If not, see <http://www.gnu.org/licenses/>.
- *
- * \file tree.h
+ * Red Black Tree Interface
+ * \file rbtree.h
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_RBTREE_H_
-#define KD_TRIAL_RBTREE_H_
+#ifndef KD_RBTREE_H_
+#define KD_RBTREE_H_
 
 #include <vector>
 
@@ -31,8 +19,6 @@ namespace kd
      *  2. The root of the tree is always black.
      *  3. There are no two adjacent red nodes. Therefore, a red node can't have a red parent or red child.
      *  4. Every path from the root node to a leaf node (NULL node) has the same number of black nodes.
-     *
-     * The height of a red black tree is always O(logN), therefore all the operations are O(logN)
      *
      */
     template <typename T>
@@ -71,6 +57,12 @@ namespace kd
             
             const bool& color() const { return mColor; }
 			Color& color() { return mColor; }
+
+			RBNode* left() const { return mLeft; }
+			RBNode* left() { return mLeft; }
+
+			RBNode* right() const { return mRight; }
+			RBNode* right() { return mRight; }
  
 		protected:
             /// Alias for a pointer to a BST node
@@ -186,7 +178,7 @@ namespace kd
 
 
 // Include implementation
-#include <collections/impl/rbtree.hpp>
+#include "rbtree.hpp"
 
 
-#endif /* KD_TRIAL_RBTREE_H_ */
+#endif /* KD_RBTREE_H_ */
