@@ -51,3 +51,8 @@ add_executable (trial
 	${TRIAL_SRC_COLLECTIONS}
 	${TRIAL_SRC_MAIN}
 )
+
+#============================#
+# Set compiler to use C++ 11 #
+#============================#
+set_property(TARGET trial PROPERTY CXX_STANDARD 11)
