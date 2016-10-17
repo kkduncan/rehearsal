@@ -71,7 +71,11 @@ bool kd::BSTree<T>::remove(const T& val)
 				// Case 2: Node has one child
 				if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
 				{
+#ifdef _WIN32
 					kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
+#else
+                    typename kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
+#endif
 
 					if (currNode->mRight != nullptr)
 					{

@@ -22,8 +22,13 @@ RBTree<T>::~RBTree()
 template <typename T>
 void RBTree<T>::leftRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 {
-	RBTree<T>::RBNode::Ptr rightChild = rotatingNode->mRight;
-	if (rotatingNode->mParent == this->mNilNode)
+#ifdef _WIN32
+    RBTree<T>::RBNode::Ptr rightChild = rotatingNode->mRight;
+#else
+    typename RBTree<T>::RBNode::Ptr rightChild = rotatingNode->mRight;
+#endif
+    
+    if (rotatingNode->mParent == this->mNilNode)
 	{
 		this->mRoot = rightChild;
 	}
@@ -50,7 +55,12 @@ void RBTree<T>::leftRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 template <typename T>
 void RBTree<T>::rightRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 {
-	RBTree<T>::RBNode::Ptr leftChild = rotatingNode->mLeft;
+#ifdef _WIN32
+    RBTree<T>::RBNode::Ptr leftChild = rotatingNode->mLeft;
+#else
+    typename RBTree<T>::RBNode::Ptr leftChild = rotatingNode->mLeft;
+#endif
+    
 	if (rotatingNode->mParent == this->mNilNode)
 	{
 		this->mRoot = leftChild;
@@ -78,10 +88,16 @@ void RBTree<T>::rightRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 template <typename T>
 void RBTree<T>::insert(const T& val)
 {
-	RBTree<T>::RBNode::Ptr newNode = new RBTree<T>::RBNode(val);
-	RBTree<T>::RBNode::Ptr currNode = this->mRoot;
-	RBTree<T>::RBNode::Ptr prevNode = this->mNilNode;
-	
+#ifdef _WIN32
+    RBTree<T>::RBNode::Ptr newNode = new RBTree<T>::RBNode(val);
+    RBTree<T>::RBNode::Ptr currNode = this->mRoot;
+    RBTree<T>::RBNode::Ptr prevNode = this->mNilNode;
+#else
+    typename RBTree<T>::RBNode::Ptr newNode = new RBTree<T>::RBNode(val);
+    typename RBTree<T>::RBNode::Ptr currNode = this->mRoot;
+    typename RBTree<T>::RBNode::Ptr prevNode = this->mNilNode;
+#endif
+		
 	while (currNode != this->mNilNode)
 	{
 		prevNode = currNode;
@@ -142,7 +158,11 @@ void RBTree<T>::fixAfterInsert(typename RBTree<T>::RBNode::Ptr currNode)
 			// If the current node's parent is a LEFT CHILD
 			if (currNode->mParent == currNode->mParent->mParent->mLeft)
 			{
+#ifdef _WIN32
 				RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mRight;
+#else
+                typename RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mRight;
+#endif
 
 				// Case 1: If uncle node is Red
 				if (uncleNode->mColor == Color::Red)
@@ -176,7 +196,12 @@ void RBTree<T>::fixAfterInsert(typename RBTree<T>::RBNode::Ptr currNode)
 			// If the current node's parent is a RIGHT CHILD
 			else
 			{
+#ifdef _WIN32
 				RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mLeft;
+#else
+                typename RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mLeft;
+#endif
+                
 				if (uncleNode->mColor == Color::Red)
 				{
 					currNode->mParent->mColor = Color::Black;
@@ -244,8 +269,13 @@ typename RBTree<T>::RBNode::Ptr RBTree<T>::findSuccessor(typename RBTree<T>::RBN
 		}
 		return node;
 	}
-
+    
+#ifdef _Win32
 	RBTree<T>::RBNode::Ptr y = node->mParent;
+#else
+    typename RBTree<T>::RBNode::Ptr y = node->mParent;
+#endif
+    
 	while (y != this->mNilNode && node == y->mRight)
 	{
 		node = y;
@@ -261,7 +291,11 @@ void RBTree<T>::fixAfterDelete(typename RBTree<T>::RBNode::Ptr currNode)
 {
 	while (currNode != this->mRoot && currNode->mColor == false)
 	{
+#ifdef _WIN32
 		RBTree<T>::RBNode::Ptr replacementChild = nullptr;
+#else
+        typename RBTree<T>::RBNode::Ptr replacementChild = nullptr;
+#endif
 
 		if (currNode->mParent->mLeft == currNode)
 		{
@@ -344,8 +378,13 @@ void RBTree<T>::fixAfterDelete(typename RBTree<T>::RBNode::Ptr currNode)
 template <typename T>
 void RBTree<T>::remove(typename RBTree<T>::RBNode::Ptr nodeToDelete)
 {
+#ifdef _WIN32
 	RBTree<T>::RBNode::Ptr replacementNode = this->mNilNode;
 	RBTree<T>::RBNode::Ptr replacementNodeChild = this->mNilNode;
+#else
+    typename RBTree<T>::RBNode::Ptr replacementNode = this->mNilNode;
+    typename RBTree<T>::RBNode::Ptr replacementNodeChild = this->mNilNode;
+#endif
 	
 	if (nodeToDelete->mLeft == this->mNilNode || nodeToDelete->mRight == this->mNilNode)
 	{
@@ -401,7 +440,12 @@ void RBTree<T>::remove(typename RBTree<T>::RBNode::Ptr nodeToDelete)
 template <typename T>
 bool RBTree<T>::remove(const T& val)
 {
+#ifdef _WIN32
 	RBTree<T>::RBNode::Ptr foundNode = this->search(val);
+#else
+    typename RBTree<T>::RBNode::Ptr foundNode = this->search(val);
+#endif
+    
 	if (foundNode != this->mNilNode)
 	{
 		this->remove(foundNode);
