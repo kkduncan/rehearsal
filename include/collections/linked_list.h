@@ -16,8 +16,8 @@
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_LINKED_LIST_H_
-#define KD_TRIAL_LINKED_LIST_H_
+#ifndef KD_REHEARSAL_LINKED_LIST_H_
+#define KD_REHEARSAL_LINKED_LIST_H_
 
 /**
  * \brief Namespace containing all functionality
@@ -34,7 +34,7 @@ public:
 	/// Singly-linked Node
 	class Node
 	{
-		friend class SinglyLinkedList;				
+		friend class SinglyLinkedList;
 
 	public:
 		Node() : mValue(), mNext(nullptr) {}
@@ -97,4 +97,4 @@ private:
 // Include implementation
 #include <collections/impl/linked_list.hpp>
 
-#endif /* KD_TRIAL_LINKED_LIST_H_ */
+#endif /* KD_REHEARSAL_LINKED_LIST_H_ */

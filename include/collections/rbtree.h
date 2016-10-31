@@ -12,12 +12,12 @@
  * You should have received a copy of the GNU General Public License
  * along with trial.  If not, see <http://www.gnu.org/licenses/>.
  *
- * \file tree.h
+ * \file rbtree.h
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_RBTREE_H_
-#define KD_TRIAL_RBTREE_H_
+#ifndef KD_REHEARSAL_RBTREE_H_
+#define KD_REHEARSAL_RBTREE_H_
 
 #include <vector>
 
@@ -49,12 +49,12 @@ namespace kd
             PostOrder,
             LevelOrder
         };
-        
+
 		/// Red-Black Tree Node
 		class RBNode
 		{
 			friend class RBTree;
-            
+
         public:
             /// Node color
             enum Color
@@ -62,7 +62,7 @@ namespace kd
                 Red,
                 Black
             };
-            
+
             RBNode() : mValue(), mParent(nullptr), mLeft(nullptr), mRight(nullptr), mColor(Red) {}
 			RBNode(T v) : mValue(v), mParent(nullptr), mLeft(nullptr), mRight(nullptr), mColor(Red)  {}
             
@@ -195,4 +195,4 @@ namespace kd
 #include <collections/impl/rbtree.hpp>
 
 
-#endif /* KD_TRIAL_RBTREE_H_ */
+#endif /* KD_REHEARSAL_RBTREE_H_ */

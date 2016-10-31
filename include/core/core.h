@@ -19,5 +19,4 @@
 #ifndef KD_TRIAL_CORE_H_
 #define KD_TRIAL_CORE_H_
 
-
 #endif /* KD_TRIAL_CORE_H_ */

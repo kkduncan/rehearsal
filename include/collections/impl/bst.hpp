@@ -12,7 +12,7 @@ kd::BSTree<T>::BSTree() : mRoot(nullptr), mSize(0)
 template <typename T>
 kd::BSTree<T>::~BSTree()
 {
-	this->clear();
+    this->clear();
 }
 
 template <typename T>
@@ -42,10 +42,10 @@ void kd::BSTree<T>::insert(const T& val)
                 return insertHelper(currNode->mRight, newNode);
             }
         }
-        
+
         return true;
     };
-    
+
     typename Node::Ptr newNode = new Node(val);
     if (insertHelper(this->mRoot, newNode))
     {
@@ -56,150 +56,150 @@ void kd::BSTree<T>::insert(const T& val)
 template <typename T>
 bool kd::BSTree<T>::remove(const T& val)
 {
-	static std::function<bool(typename Node::Ptr, typename Node::Ptr, const T&)> removeHelper = 
-		[&](typename Node::Ptr parentNode, typename Node::Ptr currNode, const int& val)
-	{
-		if (currNode == nullptr)
-		{
-			return false;
-		}
-		else
-		{
-			if (currNode->mValue == val)
-			{
-				// Case 1: Node is a leaf  --AND--
-				// Case 2: Node has one child
-				if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
-				{
+    static std::function<bool(typename Node::Ptr, typename Node::Ptr, const T&)> removeHelper =
+        [&](typename Node::Ptr parentNode, typename Node::Ptr currNode, const int& val)
+    {
+        if (currNode == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            if (currNode->mValue == val)
+            {
+                // Case 1: Node is a leaf  --AND--
+                // Case 2: Node has one child
+                if (currNode->mLeft == nullptr || currNode->mRight == nullptr)
+                {
 #ifdef _WIN32
-					kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
+                    kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
 #else
                     typename kd::BSTree<T>::Node::Ptr tempNode = currNode->mLeft;
 #endif
 
-					if (currNode->mRight != nullptr)
-					{
-						tempNode = currNode->mRight;
-					}
+                    if (currNode->mRight != nullptr)
+                    {
+                        tempNode = currNode->mRight;
+                    }
 
-					if (parentNode != nullptr)
-					{
-						if (parentNode->mLeft == currNode)
-						{
-							parentNode->mLeft = tempNode;
-						}
-						else
-						{
-							parentNode->mRight = tempNode;
-						}
-					}
-					else
-					{
-						this->mRoot = tempNode;
-					}
-				}
-				// Case 3: Has two children
-				else
-				{
-					const T& minRightTreeVal = this->getMin(currNode->mRight);
-					currNode->mValue = minRightTreeVal;
-					removeHelper(currNode, currNode->mRight, minRightTreeVal);
-				}
+                    if (parentNode != nullptr)
+                    {
+                        if (parentNode->mLeft == currNode)
+                        {
+                            parentNode->mLeft = tempNode;
+                        }
+                        else
+                        {
+                            parentNode->mRight = tempNode;
+                        }
+                    }
+                    else
+                    {
+                        this->mRoot = tempNode;
+                    }
+                }
+                // Case 3: Has two children
+                else
+                {
+                    const T& minRightTreeVal = this->getMin(currNode->mRight);
+                    currNode->mValue = minRightTreeVal;
+                    removeHelper(currNode, currNode->mRight, minRightTreeVal);
+                }
 
-				delete currNode;
-				--mSize;
-				return true;
-			}
-			else
-			{
-				return removeHelper(currNode, currNode->mLeft, val) || removeHelper(currNode, currNode->mRight, val);
-			}
-		}
-	};
+                delete currNode;
+                --mSize;
+                return true;
+            }
+            else
+            {
+                return removeHelper(currNode, currNode->mLeft, val) || removeHelper(currNode, currNode->mRight, val);
+            }
+        }
+    };
 
-	return removeHelper(nullptr, this->mRoot, val);
+    return removeHelper(nullptr, this->mRoot, val);
 }
 
 template <typename T>
 bool kd::BSTree<T>::find(const T& val) const
 {
-	static std::function <bool(typename Node::Ptr, const T&)> findHelper = [&](typename Node::Ptr node, 
-																			   const T& val)
-	{
-		if (node == nullptr)
-		{
-			return false;
-		}
-		else
-		{
-			if (node->mValue == val)
-			{
-				return true;
-			}
-			else if (node->mValue > val)
-			{
-				return findHelper(node->mLeft, val);
-			}
-			else
-			{
-				return findHelper(node->mRight, val);
-			}
-		}
-	};
+    static std::function <bool(typename Node::Ptr, const T&)> findHelper = [&](typename Node::Ptr node,
+                                                                               const T& val)
+    {
+        if (node == nullptr)
+        {
+            return false;
+        }
+        else
+        {
+            if (node->mValue == val)
+            {
+                return true;
+            }
+            else if (node->mValue > val)
+            {
+                return findHelper(node->mLeft, val);
+            }
+            else
+            {
+                return findHelper(node->mRight, val);
+            }
+        }
+    };
 
-	return findHelper(this->mRoot, val);	
+    return findHelper(this->mRoot, val);
 }
 
 template <typename T>
 const T kd::BSTree<T>::getMax(typename Node::Ptr aNode) const
 {
-	if (aNode == nullptr)
-	{
-		return std::numeric_limits<T>::min();
-	}
-	else
-	{
-		if (aNode->mRight == nullptr)
-		{
-			return aNode->mValue;
-		}
-		else
-		{
-			return getMax(aNode->mRight);
-		}
-	}
+    if (aNode == nullptr)
+    {
+        return std::numeric_limits<T>::min();
+    }
+    else
+    {
+        if (aNode->mRight == nullptr)
+        {
+            return aNode->mValue;
+        }
+        else
+        {
+            return getMax(aNode->mRight);
+        }
+    }
 };
 
 template <typename T>
 const T kd::BSTree<T>::getMax() const
 {
-	return getMax(this->mRoot);
+    return getMax(this->mRoot);
 }
 
 template <typename T>
 const T kd::BSTree<T>::getMin(typename Node::Ptr aNode) const
 {
-	if(aNode == nullptr)
-	{
-		return std::numeric_limits<T>::max();
-	}
-		else
-		{
-			if (aNode->mLeft == nullptr)
-			{
-				return aNode->mValue;
-			}
-			else
-			{
-				return getMin(aNode->mLeft);
-			}
-		}
+    if(aNode == nullptr)
+    {
+        return std::numeric_limits<T>::max();
+    }
+        else
+        {
+            if (aNode->mLeft == nullptr)
+            {
+                return aNode->mValue;
+            }
+            else
+            {
+                return getMin(aNode->mLeft);
+            }
+        }
 };
 
 template <typename T>
 const T kd::BSTree<T>::getMin() const
 {
-	return getMin(this->mRoot);
+    return getMin(this->mRoot);
 }
 
 template <typename T>
@@ -228,7 +228,7 @@ int kd::BSTree<T>::height() const
             return 1 + std::max(heightHelper(node->mLeft), heightHelper(node->mRight));
         }
     };
-    
+
     auto h = heightHelper(this->mRoot);
     return h >= 0 ? h : 0;
 }
@@ -236,22 +236,22 @@ int kd::BSTree<T>::height() const
 template <typename T>
 void kd::BSTree<T>::clear()
 {
-	static std::function<void(typename Node::Ptr&)> clearHelper = [&](typename Node::Ptr& aNode)
-	{
-		if (aNode == nullptr)
-		{
-			return;
-		}
+    static std::function<void(typename Node::Ptr&)> clearHelper = [&](typename Node::Ptr& aNode)
+    {
+        if (aNode == nullptr)
+        {
+            return;
+        }
 
-		clearHelper(aNode->mLeft);
-		clearHelper(aNode->mRight);
-		delete aNode;
-		aNode = nullptr;
+        clearHelper(aNode->mLeft);
+        clearHelper(aNode->mRight);
+        delete aNode;
+        aNode = nullptr;
 
-		--mSize;		
-	};
+        --mSize;
+    };
 
-	clearHelper(this->mRoot);
+    clearHelper(this->mRoot);
 }
 
 template <typename T>
@@ -261,7 +261,7 @@ void kd::BSTree<T>::getElementsPreOrder(typename Node::Ptr node, std::vector<T>&
     {
         return;
     }
-    
+
     elems.push_back(node->mValue);
     getElementsPreOrder(node->mLeft, elems);
     getElementsPreOrder(node->mRight, elems);
@@ -274,7 +274,7 @@ void kd::BSTree<T>::getElementsInOrder(typename Node::Ptr node, std::vector<T>& 
     {
         return;
     }
-    
+
     getElementsInOrder(node->mLeft, elems);
     elems.push_back(node->mValue);
     getElementsInOrder(node->mRight, elems);
@@ -287,7 +287,7 @@ void kd::BSTree<T>::getElementsPostOrder(typename Node::Ptr node, std::vector<T>
     {
         return;
     }
-    
+
     getElementsPostOrder(node->mLeft, elems);
     getElementsPostOrder(node->mRight, elems);
     elems.push_back(node->mValue);
@@ -304,7 +304,7 @@ void kd::BSTree<T>::getElementsLevelOrder(typename Node::Ptr node, std::vector<T
         {
             return;
         }
-        
+
         if (level == 1)
         {
             elems.push_back(node->mValue);
@@ -315,7 +315,7 @@ void kd::BSTree<T>::getElementsLevelOrder(typename Node::Ptr node, std::vector<T
             getLevelElems(node->mRight, level - 1, elems);
         }
     };
-    
+
     auto levels = this->height() + 1;
     for (auto level = 1; level <= levels; ++level)
     {
@@ -329,26 +329,25 @@ std::vector<T> kd::BSTree<T>::getElementList(const Traversal& traversal /* = InO
 {
     std::vector<T> elems;
     elems.reserve(mSize);
-    
+
     switch(traversal)
     {
         case PreOrder:
             this->getElementsPreOrder(this->mRoot, elems);
             break;
-            
+
         case PostOrder:
             this->getElementsPostOrder(this->mRoot, elems);
             break;
-            
+
         case LevelOrder:
             this->getElementsLevelOrder(this->mRoot, elems);
             break;
-            
+
         default:
             this->getElementsInOrder(this->mRoot, elems);
             break;
     }
-    
-    return std::move(elems);    
-}
 
+    return std::move(elems);
+}

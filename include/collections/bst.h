@@ -16,8 +16,8 @@
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TRIAL_BST_H_
-#define KD_TRIAL_BST_H_
+#ifndef KD_REHEARSAL_BST_H_
+#define KD_REHEARSAL_BST_H_
 
 #include <vector>
 
@@ -40,18 +40,18 @@ namespace kd
             PostOrder,
             LevelOrder
         };
-        
+
         /// Tree Node
         class Node
         {
             friend class BSTree;
-            
+
         public:
             Node() : mValue(), mLeft(nullptr), mRight(nullptr) {}
             Node(T v) : mValue(v), mLeft(nullptr), mRight(nullptr) {}
             const T& value() const { return mValue; }
             T& value() { return mValue; }
-            
+
         protected:
             /// Alias for a pointer to a BST node
             using Ptr = Node*;
@@ -59,72 +59,72 @@ namespace kd
             Ptr mLeft;
             Ptr mRight;
         };
-        
+
     public:
         /// Constructor
         BSTree();
-        
+
         /// Destructor
         virtual ~BSTree();
-        
+
         /// Insert an element in the tree
         virtual void insert(const T& val);
 
-		/// Delete an element from the tree (if it exists)
-		virtual bool remove(const T& val);
-        
+        /// Delete an element from the tree (if it exists)
+        virtual bool remove(const T& val);
+
         /// Search for an element
         bool find(const T& val) const;
 
-		/// Get the maximum value
-		const T getMax() const;
+        /// Get the maximum value
+        const T getMax() const;
 
-		/// Get the minimum value
-		const T getMin() const;
+        /// Get the minimum value
+        const T getMin() const;
 
         /// Check to see if the tree is empty
         bool isEmpty() const;
-        
+
         /// Get the number of elements in the tree
         size_t size() const;
-        
+
         /// Get the height of the tree
         int height() const;
-        
+
         // Clear the contents of the tree
         void clear();
-        
+
         /// Get a list of the elements in the tree according to the traversal method
         std::vector<T> getElementList(const Traversal& traversal = InOrder) const;
-        
-    protected:
-		/// Get the maximum value
-		const T getMax(typename Node::Ptr node) const;
 
-		/// Get the minimum value
-		const T getMin(typename Node::Ptr node) const;
+    protected:
+        /// Get the maximum value
+        const T getMax(typename Node::Ptr node) const;
+
+        /// Get the minimum value
+        const T getMin(typename Node::Ptr node) const;
 
         /// Get the elements of the tree via Pre-Order traversal
         void getElementsPreOrder(typename Node::Ptr node, std::vector<T>& elems) const;
-        
+
         /// Get the elements of the tree via In-Order traversal
         void getElementsInOrder(typename Node::Ptr node, std::vector<T>& elems) const;
-        
+
         /// Get the elements of the tree via Post-Order traversal
         void getElementsPostOrder(typename Node::Ptr node, std::vector<T>& elems) const;
-        
+
         /// Get the elements of the tree via Level-Order traversal
         void getElementsLevelOrder(typename Node::Ptr node, std::vector<T>& elems) const;
-        
-        
+
+
     protected:
         /// The root of the tree
         typename Node::Ptr mRoot;
-        
+
         /// The number of elements in the tree
-        size_t mSize;        
+        size_t mSize;
     };
-    
+
 } // namespace kd
 
 
@@ -132,4 +132,4 @@ namespace kd
 #include <collections/impl/bst.hpp>
 
 
-#endif /* KD_TRIAL_BST_H_ */
+#endif /* KD_REHEARSAL_BST_H_ */

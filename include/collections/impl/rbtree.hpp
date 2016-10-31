@@ -8,14 +8,14 @@ using namespace kd;
 template <typename T>
 RBTree<T>::RBTree() : mNilNode(new RBTree<T>::RBNode(std::numeric_limits<T>::max())), mRoot(mNilNode), mSize(0)
 {
-	mNilNode->mColor = Color::Black;
+    mNilNode->mColor = Color::Black;
 }
 
 
 template <typename T>
 RBTree<T>::~RBTree()
 {
-	this->clear();
+    this->clear();
 }
 
 
@@ -27,28 +27,28 @@ void RBTree<T>::leftRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 #else
     typename RBTree<T>::RBNode::Ptr rightChild = rotatingNode->mRight;
 #endif
-    
-    if (rotatingNode->mParent == this->mNilNode)
-	{
-		this->mRoot = rightChild;
-	}
-	else
-	{
-		if (rotatingNode == rotatingNode->mParent->mLeft)
-		{
-			rotatingNode->mParent->mLeft = rightChild;
-		}
-		else
-		{
-			rotatingNode->mParent->mRight = rightChild;
-		}
-	}
 
-	rightChild->mParent = rotatingNode->mParent;
-	rotatingNode->mRight = rightChild->mLeft;
-	rightChild->mLeft->mParent = rotatingNode;
-	rightChild->mLeft = rotatingNode;
-	rotatingNode->mParent = rightChild;
+    if (rotatingNode->mParent == this->mNilNode)
+    {
+        this->mRoot = rightChild;
+    }
+    else
+    {
+        if (rotatingNode == rotatingNode->mParent->mLeft)
+        {
+            rotatingNode->mParent->mLeft = rightChild;
+        }
+        else
+        {
+            rotatingNode->mParent->mRight = rightChild;
+        }
+    }
+
+    rightChild->mParent = rotatingNode->mParent;
+    rotatingNode->mRight = rightChild->mLeft;
+    rightChild->mLeft->mParent = rotatingNode;
+    rightChild->mLeft = rotatingNode;
+    rotatingNode->mParent = rightChild;
 }
 
 
@@ -60,28 +60,28 @@ void RBTree<T>::rightRotate(typename RBTree<T>::RBNode::Ptr rotatingNode)
 #else
     typename RBTree<T>::RBNode::Ptr leftChild = rotatingNode->mLeft;
 #endif
-    
-	if (rotatingNode->mParent == this->mNilNode)
-	{
-		this->mRoot = leftChild;
-	}
-	else
-	{
-		if (rotatingNode->mParent->mLeft == rotatingNode)
-		{
-			rotatingNode->mParent->mLeft = leftChild;
-		}
-		else
-		{
-			rotatingNode->mParent->mRight = leftChild;
-		}
-	}
 
-	leftChild->mParent = rotatingNode->mParent;
-	rotatingNode->mLeft = leftChild->mRight;
-	leftChild->mRight->mParent = rotatingNode;
-	leftChild->mRight = rotatingNode;
-	rotatingNode->mParent = leftChild;
+    if (rotatingNode->mParent == this->mNilNode)
+    {
+        this->mRoot = leftChild;
+    }
+    else
+    {
+        if (rotatingNode->mParent->mLeft == rotatingNode)
+        {
+            rotatingNode->mParent->mLeft = leftChild;
+        }
+        else
+        {
+            rotatingNode->mParent->mRight = leftChild;
+        }
+    }
+
+    leftChild->mParent = rotatingNode->mParent;
+    rotatingNode->mLeft = leftChild->mRight;
+    leftChild->mRight->mParent = rotatingNode;
+    leftChild->mRight = rotatingNode;
+    rotatingNode->mParent = leftChild;
 }
 
 
@@ -97,281 +97,281 @@ void RBTree<T>::insert(const T& val)
     typename RBTree<T>::RBNode::Ptr currNode = this->mRoot;
     typename RBTree<T>::RBNode::Ptr prevNode = this->mNilNode;
 #endif
-		
-	while (currNode != this->mNilNode)
-	{
-		prevNode = currNode;
-		if (val == currNode->mValue)
-		{
-			// Avoids duplicates
-			return;
-		}
-		else if (val < currNode->mValue)
-		{
-			currNode = currNode->mLeft;
-		}
-		else
-		{
-			currNode = currNode->mRight;
-		}
-	}
 
-	// Set the parent of this node
-	newNode->mParent = prevNode;
-	if (prevNode == this->mNilNode)
-	{
-		this->mRoot = newNode;
-	}
-	else
-	{
-		if (newNode->mValue < prevNode->mValue)
-		{
-			prevNode->mLeft = newNode;
-		}
-		else
-		{
-			prevNode->mRight = newNode;
-		}
-	}
+    while (currNode != this->mNilNode)
+    {
+        prevNode = currNode;
+        if (val == currNode->mValue)
+        {
+            // Avoids duplicates
+            return;
+        }
+        else if (val < currNode->mValue)
+        {
+            currNode = currNode->mLeft;
+        }
+        else
+        {
+            currNode = currNode->mRight;
+        }
+    }
 
-	// Set the children of this new node and its color
-	newNode->mLeft = mNilNode;
-	newNode->mRight = mNilNode;
-	newNode->mColor = Color::Red;
+    // Set the parent of this node
+    newNode->mParent = prevNode;
+    if (prevNode == this->mNilNode)
+    {
+        this->mRoot = newNode;
+    }
+    else
+    {
+        if (newNode->mValue < prevNode->mValue)
+        {
+            prevNode->mLeft = newNode;
+        }
+        else
+        {
+            prevNode->mRight = newNode;
+        }
+    }
 
-	// Increment size
-	++mSize;
+    // Set the children of this new node and its color
+    newNode->mLeft = mNilNode;
+    newNode->mRight = mNilNode;
+    newNode->mColor = Color::Red;
 
-	// Balance the tree
-	fixAfterInsert(newNode);
+    // Increment size
+    ++mSize;
+
+    // Balance the tree
+    fixAfterInsert(newNode);
 }
 
 
 template <typename T>
 void RBTree<T>::fixAfterInsert(typename RBTree<T>::RBNode::Ptr currNode)
 {
-	if (currNode->mParent != this->mNilNode)
-	{
-		// If there is a Red-Red violation
-		while (currNode->mParent != this->mNilNode && currNode->mParent->mColor == Color::Red)
-		{
-			// If the current node's parent is a LEFT CHILD
-			if (currNode->mParent == currNode->mParent->mParent->mLeft)
-			{
+    if (currNode->mParent != this->mNilNode)
+    {
+        // If there is a Red-Red violation
+        while (currNode->mParent != this->mNilNode && currNode->mParent->mColor == Color::Red)
+        {
+            // If the current node's parent is a LEFT CHILD
+            if (currNode->mParent == currNode->mParent->mParent->mLeft)
+            {
 #ifdef _WIN32
-				RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mRight;
+                RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mRight;
 #else
                 typename RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mRight;
 #endif
 
-				// Case 1: If uncle node is Red
-				if (uncleNode->mColor == Color::Red)
-				{
-					// Fix: Switch colors
-					currNode->mParent->mColor = Color::Black;
-					uncleNode->mColor = Color::Black;
-					currNode->mParent->mParent->mColor = Color::Red;
-					currNode = currNode->mParent->mParent;
-				}
-				// If uncle node is Black,
-				else
-				{
-					// Case 2: Violating node is in opposite location of parent
-					if (currNode == currNode->mParent->mRight)
-					{
-						// Fix: rotate around parent
-						currNode = currNode->mParent;
-						leftRotate(currNode);
-					}
+                // Case 1: If uncle node is Red
+                if (uncleNode->mColor == Color::Red)
+                {
+                    // Fix: Switch colors
+                    currNode->mParent->mColor = Color::Black;
+                    uncleNode->mColor = Color::Black;
+                    currNode->mParent->mParent->mColor = Color::Red;
+                    currNode = currNode->mParent->mParent;
+                }
+                // If uncle node is Black,
+                else
+                {
+                    // Case 2: Violating node is in opposite location of parent
+                    if (currNode == currNode->mParent->mRight)
+                    {
+                        // Fix: rotate around parent
+                        currNode = currNode->mParent;
+                        leftRotate(currNode);
+                    }
 
-					// Fix: switch colors
-					currNode->mParent->mColor = Color::Black;
-					currNode->mParent->mParent->mColor = Color::Red;
-					currNode->mParent->mRight->mColor = Color::Black;
+                    // Fix: switch colors
+                    currNode->mParent->mColor = Color::Black;
+                    currNode->mParent->mParent->mColor = Color::Red;
+                    currNode->mParent->mRight->mColor = Color::Black;
 
-					// Fix: rotate around grandparent
-					rightRotate(currNode->mParent->mParent);
-				}
-			}
-			// If the current node's parent is a RIGHT CHILD
-			else
-			{
+                    // Fix: rotate around grandparent
+                    rightRotate(currNode->mParent->mParent);
+                }
+            }
+            // If the current node's parent is a RIGHT CHILD
+            else
+            {
 #ifdef _WIN32
-				RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mLeft;
+                RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mLeft;
 #else
                 typename RBTree<T>::RBNode::Ptr uncleNode = currNode->mParent->mParent->mLeft;
 #endif
-                
-				if (uncleNode->mColor == Color::Red)
-				{
-					currNode->mParent->mColor = Color::Black;
-					uncleNode->mColor = Color::Black;
-					currNode->mParent->mParent->mColor = Color::Red;
-					currNode = currNode->mParent->mParent;
-				}
-				else
-				{
-					if (currNode == currNode->mParent->mLeft)
-					{
-						currNode = currNode->mParent;
-						rightRotate(currNode);
-					}
 
-					currNode->mParent->mColor = Color::Black;
-					currNode->mParent->mParent->mColor = Color::Red;
-					currNode->mParent->mLeft->mColor = Color::Black;
-					leftRotate(currNode->mParent->mParent);
-				}
-			}
-		}
-	}
+                if (uncleNode->mColor == Color::Red)
+                {
+                    currNode->mParent->mColor = Color::Black;
+                    uncleNode->mColor = Color::Black;
+                    currNode->mParent->mParent->mColor = Color::Red;
+                    currNode = currNode->mParent->mParent;
+                }
+                else
+                {
+                    if (currNode == currNode->mParent->mLeft)
+                    {
+                        currNode = currNode->mParent;
+                        rightRotate(currNode);
+                    }
 
-	// Root must always be black
-	this->mRoot->mColor = Color::Black;
+                    currNode->mParent->mColor = Color::Black;
+                    currNode->mParent->mParent->mColor = Color::Red;
+                    currNode->mParent->mLeft->mColor = Color::Black;
+                    leftRotate(currNode->mParent->mParent);
+                }
+            }
+        }
+    }
+
+    // Root must always be black
+    this->mRoot->mColor = Color::Black;
 }
 
 
 template <typename T>
 typename RBTree<T>::RBNode::Ptr RBTree<T>::search(const T& val) const
 {
-	typename RBTree<T>::RBNode::Ptr currNode = this->mRoot;
+    typename RBTree<T>::RBNode::Ptr currNode = this->mRoot;
 
-	while (currNode != this->mNilNode && val != currNode->mValue)
-	{
-		if (val < currNode->mValue)
-		{
-			currNode = currNode->mLeft;
-		}
-		else
-		{
-			currNode = currNode->mRight;
-		}
-	}
-	return currNode;
+    while (currNode != this->mNilNode && val != currNode->mValue)
+    {
+        if (val < currNode->mValue)
+        {
+            currNode = currNode->mLeft;
+        }
+        else
+        {
+            currNode = currNode->mRight;
+        }
+    }
+    return currNode;
 }
 
 
 template <typename T>
 bool RBTree<T>::exists(const T& val) const
 {
-	return this->search(val) != this->mNilNode;
+    return this->search(val) != this->mNilNode;
 }
 
 
 template <typename T>
 typename RBTree<T>::RBNode::Ptr RBTree<T>::findSuccessor(typename RBTree<T>::RBNode::Ptr node)
 {
-	if (node->mRight != this->mNilNode)
-	{
-		while (node->mLeft != this->mNilNode)
-		{
-			node = node->mLeft;
-		}
-		return node;
-	}
-    
+    if (node->mRight != this->mNilNode)
+    {
+        while (node->mLeft != this->mNilNode)
+        {
+            node = node->mLeft;
+        }
+        return node;
+    }
+
 #ifdef _Win32
-	RBTree<T>::RBNode::Ptr y = node->mParent;
+    RBTree<T>::RBNode::Ptr y = node->mParent;
 #else
     typename RBTree<T>::RBNode::Ptr y = node->mParent;
 #endif
-    
-	while (y != this->mNilNode && node == y->mRight)
-	{
-		node = y;
-		y = y->mParent;
-	}
 
-	return y;
+    while (y != this->mNilNode && node == y->mRight)
+    {
+        node = y;
+        y = y->mParent;
+    }
+
+    return y;
 }
 
 
 template <typename T>
 void RBTree<T>::fixAfterDelete(typename RBTree<T>::RBNode::Ptr currNode)
 {
-	while (currNode != this->mRoot && currNode->mColor == false)
-	{
+    while (currNode != this->mRoot && currNode->mColor == false)
+    {
 #ifdef _WIN32
-		RBTree<T>::RBNode::Ptr replacementChild = nullptr;
+        RBTree<T>::RBNode::Ptr replacementChild = nullptr;
 #else
         typename RBTree<T>::RBNode::Ptr replacementChild = nullptr;
 #endif
 
-		if (currNode->mParent->mLeft == currNode)
-		{
-			replacementChild = currNode->mParent->mRight;
+        if (currNode->mParent->mLeft == currNode)
+        {
+            replacementChild = currNode->mParent->mRight;
 
-			if (replacementChild->mColor == Color::Red)
-			{
-				replacementChild->mColor = Color::Black;
-				currNode->mParent->mColor = Color::Red;
+            if (replacementChild->mColor == Color::Red)
+            {
+                replacementChild->mColor = Color::Black;
+                currNode->mParent->mColor = Color::Red;
 
-				this->leftRotate(currNode->mParent);
-				replacementChild = currNode->mParent->mRight;
-			}
+                this->leftRotate(currNode->mParent);
+                replacementChild = currNode->mParent->mRight;
+            }
 
-			if (replacementChild->mLeft->mColor == Color::Black && replacementChild->mRight->mColor == Color::Black)
-			{
-				replacementChild->mColor = Color::Red;
-				currNode = currNode->mParent;
-			}
-			else
-			{
-				if (replacementChild->mRight->mColor == Color::Black)
-				{
-					replacementChild->mLeft->mColor = Color::Black;
-					replacementChild->mColor = Color::Red;
+            if (replacementChild->mLeft->mColor == Color::Black && replacementChild->mRight->mColor == Color::Black)
+            {
+                replacementChild->mColor = Color::Red;
+                currNode = currNode->mParent;
+            }
+            else
+            {
+                if (replacementChild->mRight->mColor == Color::Black)
+                {
+                    replacementChild->mLeft->mColor = Color::Black;
+                    replacementChild->mColor = Color::Red;
 
-					this->rightRotate(replacementChild);
-					replacementChild = currNode->mParent->mRight;
-				}
+                    this->rightRotate(replacementChild);
+                    replacementChild = currNode->mParent->mRight;
+                }
 
-				replacementChild->mColor = currNode->mParent->mColor;
-				currNode->mParent->mColor = Color::Black;
-				replacementChild->mRight->mColor = Color::Black;
+                replacementChild->mColor = currNode->mParent->mColor;
+                currNode->mParent->mColor = Color::Black;
+                replacementChild->mRight->mColor = Color::Black;
 
-				this->leftRotate(currNode->mParent);
-				currNode = this->mRoot;
-			}
-		}
-		else
-		{
-			replacementChild = currNode->mParent->mLeft;
+                this->leftRotate(currNode->mParent);
+                currNode = this->mRoot;
+            }
+        }
+        else
+        {
+            replacementChild = currNode->mParent->mLeft;
 
-			if (replacementChild->mColor == Color::Red)
-			{
-				replacementChild->mColor = Color::Black;
-				currNode->mParent->mColor = Color::Red;
-				this->rightRotate(currNode->mParent);
-				replacementChild = currNode->mParent->mLeft;
-			}
+            if (replacementChild->mColor == Color::Red)
+            {
+                replacementChild->mColor = Color::Black;
+                currNode->mParent->mColor = Color::Red;
+                this->rightRotate(currNode->mParent);
+                replacementChild = currNode->mParent->mLeft;
+            }
 
-			if (replacementChild->mRight->mColor == Color::Black && replacementChild->mLeft->mColor == Color::Black)
-			{
-				replacementChild->mColor = Color::Red;
-				currNode = currNode->mParent;
-			}
-			else
-			{
-				if (replacementChild->mLeft->mColor == Color::Black)
-				{
-					replacementChild->mRight->mColor = Color::Black;
-					replacementChild->mColor = Color::Red;
+            if (replacementChild->mRight->mColor == Color::Black && replacementChild->mLeft->mColor == Color::Black)
+            {
+                replacementChild->mColor = Color::Red;
+                currNode = currNode->mParent;
+            }
+            else
+            {
+                if (replacementChild->mLeft->mColor == Color::Black)
+                {
+                    replacementChild->mRight->mColor = Color::Black;
+                    replacementChild->mColor = Color::Red;
 
-					this->leftRotate(replacementChild);
-					replacementChild = currNode->mParent->mLeft;
-				}
+                    this->leftRotate(replacementChild);
+                    replacementChild = currNode->mParent->mLeft;
+                }
 
-				replacementChild->mColor = currNode->mParent->mColor;
-				currNode->mParent->mColor = Color::Black;
-				replacementChild->mLeft->mColor = Color::Black;
+                replacementChild->mColor = currNode->mParent->mColor;
+                currNode->mParent->mColor = Color::Black;
+                replacementChild->mLeft->mColor = Color::Black;
 
-				this->rightRotate(currNode->mParent);
-				currNode = this->mRoot;
-			}
-		}
-	}
-	currNode->mColor = Color::Black;
+                this->rightRotate(currNode->mParent);
+                currNode = this->mRoot;
+            }
+        }
+    }
+    currNode->mColor = Color::Black;
 }
 
 
@@ -379,61 +379,61 @@ template <typename T>
 void RBTree<T>::remove(typename RBTree<T>::RBNode::Ptr nodeToDelete)
 {
 #ifdef _WIN32
-	RBTree<T>::RBNode::Ptr replacementNode = this->mNilNode;
-	RBTree<T>::RBNode::Ptr replacementNodeChild = this->mNilNode;
+    RBTree<T>::RBNode::Ptr replacementNode = this->mNilNode;
+    RBTree<T>::RBNode::Ptr replacementNodeChild = this->mNilNode;
 #else
     typename RBTree<T>::RBNode::Ptr replacementNode = this->mNilNode;
     typename RBTree<T>::RBNode::Ptr replacementNodeChild = this->mNilNode;
 #endif
-	
-	if (nodeToDelete->mLeft == this->mNilNode || nodeToDelete->mRight == this->mNilNode)
-	{
-		replacementNode = nodeToDelete;
-	}
-	else
-	{
-		replacementNode = this->findSuccessor(nodeToDelete);
-	}
 
-	if (replacementNode->mLeft != this->mNilNode)
-	{
-		replacementNodeChild = replacementNode->mLeft;
-	}
-	else
-	{
-		replacementNodeChild = replacementNode->mRight;
-	}
+    if (nodeToDelete->mLeft == this->mNilNode || nodeToDelete->mRight == this->mNilNode)
+    {
+        replacementNode = nodeToDelete;
+    }
+    else
+    {
+        replacementNode = this->findSuccessor(nodeToDelete);
+    }
 
-	replacementNodeChild->mParent = replacementNode->mParent;
-	
-	if (replacementNode->mParent == this->mNilNode)
-	{
-		this->mRoot = replacementNodeChild;
-	}
-	else
-	{
-		if (replacementNode == replacementNode->mParent->mLeft)
-		{
-			replacementNode->mParent->mLeft = replacementNodeChild;
-		}
-		else
-		{
-			replacementNode->mParent->mRight = replacementNodeChild;
-		}
-	}
+    if (replacementNode->mLeft != this->mNilNode)
+    {
+        replacementNodeChild = replacementNode->mLeft;
+    }
+    else
+    {
+        replacementNodeChild = replacementNode->mRight;
+    }
 
-	// Swap data from replacement node
-	if (replacementNode != nodeToDelete)
-	{
-		nodeToDelete->mValue = replacementNode->mValue;
-	}
+    replacementNodeChild->mParent = replacementNode->mParent;
 
-	if (replacementNode->mColor == Color::Black)
-	{
-		this->fixAfterDelete(replacementNodeChild);
-	}
+    if (replacementNode->mParent == this->mNilNode)
+    {
+        this->mRoot = replacementNodeChild;
+    }
+    else
+    {
+        if (replacementNode == replacementNode->mParent->mLeft)
+        {
+            replacementNode->mParent->mLeft = replacementNodeChild;
+        }
+        else
+        {
+            replacementNode->mParent->mRight = replacementNodeChild;
+        }
+    }
 
-	delete replacementNode;	
+    // Swap data from replacement node
+    if (replacementNode != nodeToDelete)
+    {
+        nodeToDelete->mValue = replacementNode->mValue;
+    }
+
+    if (replacementNode->mColor == Color::Black)
+    {
+        this->fixAfterDelete(replacementNodeChild);
+    }
+
+    delete replacementNode;
 }
 
 
@@ -441,74 +441,74 @@ template <typename T>
 bool RBTree<T>::remove(const T& val)
 {
 #ifdef _WIN32
-	RBTree<T>::RBNode::Ptr foundNode = this->search(val);
+    RBTree<T>::RBNode::Ptr foundNode = this->search(val);
 #else
     typename RBTree<T>::RBNode::Ptr foundNode = this->search(val);
 #endif
-    
-	if (foundNode != this->mNilNode)
-	{
-		this->remove(foundNode);
-		--mSize;
-		return true;
-	}
-	return false;
+
+    if (foundNode != this->mNilNode)
+    {
+        this->remove(foundNode);
+        --mSize;
+        return true;
+    }
+    return false;
 }
 
 
 template <typename T>
 const T RBTree<T>::getMax(typename RBNode::Ptr node) const
 {
-	if (node == this->mNilNode)
-	{
-		return std::numeric_limits<T>::min();
-	}
-	else
-	{
-		if (node->mRight == this->mNilNode)
-		{
-			return node->mValue;
-		}
-		else
-		{
-			return getMax(node->mRight);
-		}
-	}
+    if (node == this->mNilNode)
+    {
+        return std::numeric_limits<T>::min();
+    }
+    else
+    {
+        if (node->mRight == this->mNilNode)
+        {
+            return node->mValue;
+        }
+        else
+        {
+            return getMax(node->mRight);
+        }
+    }
 };
 
 
 template <typename T>
 const T RBTree<T>::getMax() const
 {
-	return getMax(this->mRoot);
+    return getMax(this->mRoot);
 }
 
 
 template <typename T>
 const T RBTree<T>::getMin(typename RBNode::Ptr node) const
 {
-	if(node == this->mNilNode)
-	{
-		return std::numeric_limits<T>::max();
-	}
-		else
-		{
-			if (node->mLeft == this->mNilNode)
-			{
-				return node->mValue;
-			}
-			else
-			{
-				return getMin(node->mLeft);
-			}
-		}
+    if(node == this->mNilNode)
+    {
+        return std::numeric_limits<T>::max();
+    }
+        else
+        {
+            if (node->mLeft == this->mNilNode)
+            {
+                return node->mValue;
+            }
+            else
+            {
+                return getMin(node->mLeft);
+            }
+        }
 };
 
 
 template <typename T>
 const T RBTree<T>::getMin() const
 {
-	return getMin(this->mRoot);
+    return getMin(this->mRoot);
 }
 
 
@@ -540,7 +540,7 @@ int RBTree<T>::height() const
             return 1 + std::max(heightHelper(node->mLeft), heightHelper(node->mRight));
         }
     };
-    
+
     auto h = heightHelper(this->mRoot);
     return h >= 0 ? h : 0;
 }
@@ -549,25 +549,25 @@ int RBTree<T>::height() const
 template <typename T>
 void RBTree<T>::clear()
 {
-	static std::function<void(typename RBNode::Ptr&)> clearHelper = [&](typename RBNode::Ptr& node)
-	{
-		if (node == mNilNode)
-		{
-			return;
-		}
+    static std::function<void(typename RBNode::Ptr&)> clearHelper = [&](typename RBNode::Ptr& node)
+    {
+        if (node == mNilNode)
+        {
+            return;
+        }
 
-		clearHelper(node->mLeft);
-		clearHelper(node->mRight);
-		delete node;
-		node = nullptr;
-		--mSize;		
-	};
+        clearHelper(node->mLeft);
+        clearHelper(node->mRight);
+        delete node;
+        node = nullptr;
+        --mSize;
+    };
 
-	clearHelper(this->mRoot);
+    clearHelper(this->mRoot);
 
-	// Delete nil node
-	delete mNilNode;
-	mNilNode = nullptr;
+    // Delete nil node
+    delete mNilNode;
+    mNilNode = nullptr;
 }
 
 
@@ -578,7 +578,7 @@ void RBTree<T>::getElementsPreOrder(typename RBNode::Ptr node, std::vector<T>& e
     {
         return;
     }
-    
+
     elems.push_back(node->mValue);
     getElementsPreOrder(node->mLeft, elems);
     getElementsPreOrder(node->mRight, elems);
@@ -592,7 +592,7 @@ void RBTree<T>::getElementsInOrder(typename RBNode::Ptr node, std::vector<T>& el
     {
         return;
     }
-    
+
     getElementsInOrder(node->mLeft, elems);
     elems.push_back(node->mValue);
     getElementsInOrder(node->mRight, elems);
@@ -606,7 +606,7 @@ void RBTree<T>::getElementsPostOrder(typename RBNode::Ptr node, std::vector<T>& 
     {
         return;
     }
-    
+
     getElementsPostOrder(node->mLeft, elems);
     getElementsPostOrder(node->mRight, elems);
     elems.push_back(node->mValue);
@@ -624,7 +624,7 @@ void RBTree<T>::getElementsLevelOrder(typename RBNode::Ptr node, std::vector<T>&
         {
             return;
         }
-        
+
         if (level == 1)
         {
             elems.push_back(node->mValue);
@@ -635,7 +635,7 @@ void RBTree<T>::getElementsLevelOrder(typename RBNode::Ptr node, std::vector<T>&
             getLevelElems(node->mRight, level - 1, elems);
         }
     };
-    
+
     auto levels = this->height() + 1;
     for (auto level = 1; level <= levels; ++level)
     {
@@ -649,26 +649,25 @@ std::vector<T> RBTree<T>::getElementList(const Traversal& traversal /* = InOrder
 {
     std::vector<T> elems;
     elems.reserve(mSize);
-    
+
     switch(traversal)
     {
         case PreOrder:
             this->getElementsPreOrder(this->mRoot, elems);
             break;
-            
+
         case PostOrder:
             this->getElementsPostOrder(this->mRoot, elems);
             break;
-            
+
         case LevelOrder:
             this->getElementsLevelOrder(this->mRoot, elems);
             break;
-            
+
         default:
             this->getElementsInOrder(this->mRoot, elems);
             break;
     }
-    
-    return std::move(elems);    
-}
 
+    return std::move(elems);
+}
