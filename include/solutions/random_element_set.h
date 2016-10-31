@@ -41,7 +41,7 @@ namespace kd
 		 * \brief Insert an element in the set
 		 * \param[in] elem Element to be inserted
 		 */
-		void insert(const T& elem)
+		inline void insert(const T& elem)
 		{
 			std::set<T>::insert(elem);
 		}
@@ -51,7 +51,7 @@ namespace kd
 		 * \param[in] elem Element to be removed
 		 * \return true if the element was removed, false otherwise
 		 */
-		bool remove(const T& elem)
+		inline bool remove(const T& elem)
 		{
 			return std::set<T>::erase(elem) > 0;
 		}
@@ -61,7 +61,7 @@ namespace kd
 		 * \return A random element if the set has elements
 		 * \note Worst case run time: O(n)
 		 */
-		T getRandomElement()
+		inline T getRandomElement()
 		{
 			T elem;
 
@@ -84,7 +84,7 @@ namespace kd
 		 * \brief Get the elements of this set as a vector
 		 * \return A vector of type T
 		 */
-		std::vector<T> toVector() const
+		inline std::vector<T> toVector() const
 		{
 			return std::move(std::vector<T>(this->begin(), this->end()));
 		}

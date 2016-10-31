@@ -4,8 +4,8 @@
  * \author KDuncan
  */
 #pragma once
-#ifndef KD_TWO_INTEGER_SUM_H
-#define KD_TWO_INTEGER_SUM_H
+#ifndef KD_TWO_ELEMENT_SUM_H
+#define KD_TWO_ELEMENT_SUM_H
 
 #include <vector>
 #include <set>
@@ -33,9 +33,7 @@ namespace kd
 			for (auto num : numberSet)
 			{
 				if (num > queryNum) continue;
-
 				int numDiff = queryNum - num;
-
 				if (numDiff == num) continue;
 
 				// Look for difference in set
@@ -58,4 +56,4 @@ namespace kd
 
 } // namespace kd
 
-#endif /* KD_TWO_INTEGER_SUM_H */
+#endif /* KD_TWO_ELEMENT_SUM_H */
