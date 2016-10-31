@@ -1,2 +1,2 @@
-# trial
-Test implementations of common data structures and algorithms for personal use.
+# Rehearsal
+Personal implementations of common data structures and algorithms for concept refinement purposes.
