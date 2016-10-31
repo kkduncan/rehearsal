@@ -4,6 +4,8 @@
 #include "collections/linked_list.h"
 #include "collections/bst.h"
 #include "collections/rbtree.h"
+#include "solutions/two_element_sum.h"
+#include "solutions/random_element_set.h"
 
 void testLinkedList()
 {
@@ -142,7 +144,8 @@ void testRBT()
 
 int main(int argc, char *argv[])
 {
-	testRBT();
+	kd::testTwoElementSum();
+	kd::testRandomElementSet();
 
 	std::cout << std::endl << std::endl << "> Done...press enter to exit" << std::endl;
 	std::cin.get();

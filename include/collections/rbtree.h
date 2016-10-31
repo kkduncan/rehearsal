@@ -71,6 +71,12 @@ namespace kd
             
             const bool& color() const { return mColor; }
 			Color& color() { return mColor; }
+			
+			RBNode* left() const { return mLeft; }
+			RBNode* left() { return mLeft; }
+
+			RBNode* right() const { return mRight; }
+			RBNode* right() { return mRight; }
  
 		protected:
             /// Alias for a pointer to a BST node

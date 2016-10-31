@@ -1,19 +1,25 @@
 cmake_minimum_required (VERSION 2.8)
 ##
-## CMakeLists for trial project
+## CMakeLists for Rehearsal Project
 ##
 ## Copyright (c) 2016, KDuncan
 ## All Rights Reserved.
 ##
 ##----------------------------------------------------#
-project (trial)
+project (rehearsal)
+
+#===========================#
+# Set project to use C++ 11 #
+#===========================#
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 #=====================#
 # Headers and Sources #
 #=====================#
-set (TRIAL_INC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/include/core/core.h)
-set (TRIAL_INC_COLLECTIONS 
+set (REHEARSAL_INC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/include/core/core.h)
+set (REHEARSAL_INC_COLLECTIONS 
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/linked_list.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/impl/linked_list.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/collections/bst.h
@@ -21,20 +27,29 @@ set (TRIAL_INC_COLLECTIONS
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/rbtree.h
     ${CMAKE_CURRENT_SOURCE_DIR}/include/collections/impl/rbtree.hpp
 )
-
-set (TRIAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
-set (TRIAL_SRC_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+set (REHEARSAL_INC_SOLUTIONS 
+	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/two_element_sum.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/random_element_set.h
+)
+set (REHEARSAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
+set (REHEARSAL_SRC_SOLUTIONS 
+	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_two_element_sum.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_random_element_set.cpp
+)
+set (REHEARSAL_SRC_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 
 
 #===============#
 # Filter Groups #
 #===============#
-source_group(include\\core FILES ${TRIAL_INC_CORE})
-source_group(include\\collections FILES ${TRIAL_INC_COLLECTIONS})
-source_group(src FILES ${TRIAL_SRC_MAIN})
-source_group(src\\core FILES ${TRIAL_SRC_CORE})
-source_group(src\\collections FILES ${TRIAL_SRC_COLLECTIONS})
+source_group(include\\core FILES ${REHEARSAL_INC_CORE})
+source_group(include\\collections FILES ${REHEARSAL_INC_COLLECTIONS})
+source_group(include\\solutions FILES ${REHEARSAL_INC_SOLUTIONS})
+source_group(src FILES ${REHEARSAL_SRC_MAIN})
+source_group(src\\core FILES ${REHEARSAL_SRC_CORE})
+source_group(src\\collections FILES ${REHEARSAL_SRC_COLLECTIONS})
+source_group(SRC\\solutions FILES ${REHEARSAL_SRC_SOLUTIONS})
 
 
 
@@ -44,15 +59,17 @@ source_group(src\\collections FILES ${TRIAL_SRC_COLLECTIONS})
 include_directories(include)
 
 
-add_executable (trial 
-	${TRIAL_INC_CORE} 
-	${TRIAL_INC_COLLECTIONS}
-	${TRIAL_SRC_CORE}
-	${TRIAL_SRC_COLLECTIONS}
-	${TRIAL_SRC_MAIN}
+add_executable (rehearsal 
+	${REHEARSAL_INC_CORE} 
+	${REHEARSAL_INC_COLLECTIONS}
+	${REHEARSAL_INC_SOLUTIONS}
+	${REHEARSAL_SRC_CORE}
+	${REHEARSAL_SRC_COLLECTIONS}
+	${REHEARSAL_SRC_SOLUTIONS}
+	${REHEARSAL_SRC_MAIN}
 )
 
 #============================#
 # Set compiler to use C++ 11 #
 #============================#
-set_property(TARGET trial PROPERTY CXX_STANDARD 11)
+set_property(TARGET rehearsal PROPERTY CXX_STANDARD 11)
