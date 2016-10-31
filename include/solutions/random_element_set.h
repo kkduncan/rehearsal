@@ -72,8 +72,7 @@ namespace kd
 				auto currIdx = 0;
 				auto it = this->begin();
 
-				for (; it != this->end() && currIdx < randomIdx; ++it, ++currIdx);
-
+				std::advance(it, randomIdx);
 				elem = *it;
 			}
 
