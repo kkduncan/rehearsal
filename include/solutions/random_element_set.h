@@ -69,7 +69,6 @@ namespace kd
 			{
 				auto numElems = this->size();
 				auto randomIdx = rand() % numElems;
-				auto currIdx = 0;
 				auto it = this->begin();
 
 				std::advance(it, randomIdx);
