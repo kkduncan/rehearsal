@@ -34,7 +34,7 @@ namespace kd
 		 */
 		RSet() : std::set<T>::set()
 		{
-			srand(static_cast<int>(time(nullptr)));
+			srand(static_cast<unsigned int>(time(nullptr)));
 		}
 
 		/**
@@ -63,19 +63,22 @@ namespace kd
 		 */
 		inline T getRandomElement()
 		{
-			T elem;
-
 			if (!this->empty())
 			{
+                T elem = 0;
 				auto numElems = this->size();
 				auto randomIdx = rand() % numElems;
 				auto it = this->begin();
 
 				std::advance(it, randomIdx);
 				elem = *it;
+                
+                return elem;
 			}
-
-			return elem;
+            else
+            {
+                return T();
+            }
 		}
 
 		/**

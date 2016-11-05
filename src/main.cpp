@@ -6,6 +6,7 @@
 #include "collections/rbtree.h"
 #include "solutions/two_element_sum.h"
 #include "solutions/random_element_set.h"
+#include "solutions/lru_cache.h"
 
 void testLinkedList()
 {
@@ -144,8 +145,7 @@ void testRBT()
 
 int main(int argc, char *argv[])
 {
-    kd::testTwoElementSum();
-    kd::testRandomElementSet();
+    kd::testLRUCache();
 
     std::cout << std::endl << std::endl << "> Done...press enter to exit" << std::endl;
     std::cin.get();

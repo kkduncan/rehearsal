@@ -30,11 +30,13 @@ set (REHEARSAL_INC_COLLECTIONS
 set (REHEARSAL_INC_SOLUTIONS 
 	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/two_element_sum.h
 	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/random_element_set.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/lru_cache.h
 )
 set (REHEARSAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
 set (REHEARSAL_SRC_SOLUTIONS 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_two_element_sum.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_random_element_set.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_lru_cache.cpp
 )
 set (REHEARSAL_SRC_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
@@ -48,7 +50,6 @@ source_group(include\\collections FILES ${REHEARSAL_INC_COLLECTIONS})
 source_group(include\\solutions FILES ${REHEARSAL_INC_SOLUTIONS})
 source_group(src FILES ${REHEARSAL_SRC_MAIN})
 source_group(src\\core FILES ${REHEARSAL_SRC_CORE})
-source_group(src\\collections FILES ${REHEARSAL_SRC_COLLECTIONS})
 source_group(SRC\\solutions FILES ${REHEARSAL_SRC_SOLUTIONS})
 
 
@@ -64,7 +65,6 @@ add_executable (rehearsal
 	${REHEARSAL_INC_COLLECTIONS}
 	${REHEARSAL_INC_SOLUTIONS}
 	${REHEARSAL_SRC_CORE}
-	${REHEARSAL_SRC_COLLECTIONS}
 	${REHEARSAL_SRC_SOLUTIONS}
 	${REHEARSAL_SRC_MAIN}
 )
