@@ -16,12 +16,12 @@ void kd::testLRUCache()
 	srand(static_cast<unsigned int>(time(nullptr)));
 
 	kd::LRUCache<int, int> cache(10);
-	int numRange = 25;
+	int numRange = 99;
 
 	for (int idx = 0; idx < numRange; ++idx)
 	{
 	    int key = rand() % numRange + 1;
-	    int val = rand() % 1000 + 1;
+	    int val = rand() % 999 + 1;
 
 	    cache[key] = val;
 	   	printf("#%02d: Cache size after inserting: (%02d, %03d) --> %02d\n", idx + 1, key, val, static_cast<int>(cache.size()));

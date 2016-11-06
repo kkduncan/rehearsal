@@ -195,7 +195,7 @@ namespace kd
             try
             {
                 auto elemIter = this->mEntries.find(key);
-                if (entry != nullptr && *entry != nullptr && elemIter != this->mEntries.end())
+                if (entry != nullptr && elemIter != this->mEntries.end())
                 {
                     *entry = elemIter->second;
                     return true;
@@ -216,7 +216,12 @@ namespace kd
         {
             try
             {
-                if (elem != nullptr || *elem == nullptr || *elem == this->mHead) return;
+                if (elem == nullptr ||
+                   (elem != nullptr && *elem == nullptr) ||
+                   (elem != nullptr && *elem == this->mHead))
+                {
+                    return;
+                }
 
                 EntryNode* next = (*elem)->next;
                 EntryNode* prev = (*elem)->prev;
