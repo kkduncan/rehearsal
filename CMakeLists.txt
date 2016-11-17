@@ -31,6 +31,7 @@ set (REHEARSAL_INC_SOLUTIONS
 	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/two_element_sum.h
 	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/random_element_set.h
 	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/lru_cache.h
+	${CMAKE_CURRENT_SOURCE_DIR}/include/solutions/string_problems.h
 )
 set (REHEARSAL_SRC_CORE ${CMAKE_CURRENT_SOURCE_DIR}/src/core/core.cpp)
 set (REHEARSAL_SRC_SOLUTIONS 
