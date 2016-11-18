@@ -207,6 +207,30 @@ namespace kd
         }
     }
 
+    void rotateMatrixInPlace (int src[][4], int n)
+    {
+        if (src == nullptr) return;
+
+        int halfN = n / 2;
+
+        for (auto i = 0; i < halfN; ++i)
+        {
+            for (auto j = 0; j < halfN; ++j)
+            {
+                int temp                        = src[i][j];
+                src[i][j]                       = src[(n - 1) - j][i];
+                src[(n - 1) - j][i]             = src[(n - 1) - i][(n - 1) - j];
+                src[(n - 1) - i][(n - 1) - j]   = src[j][(n - 1) - i];
+                src[j][(n - 1) - i]             = temp;
+            }
+        }
+    }
+
+    /*
+     * Zero Matrix: Write an algorithm such that if an element in an MxM matrix
+     * is 0, its entire row and column are set to 0.
+     */
+
 } // namespace kd
 
 
