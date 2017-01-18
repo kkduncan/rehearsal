@@ -151,6 +151,14 @@ namespace kd
 
     /**
      * \brief Compress a string by counts of repeated characters
+     *
+     * This function implements a solution to the following problem:
+     *
+     * Implement a method to perform basic string compression using the counts
+     * of repeated characters. For example, the string aabcccccaaa would become
+     * a2b1c5a3. If the compressed string would not become smaller than the
+     * original string, your method should return the original string. You can
+     * assume the string has only uppercase and lowercase letters (a - z)
      */
     std::string compressString (const std::string& str)
     {
@@ -192,6 +200,10 @@ namespace kd
         }
     }
 
+    /**
+     * \biref Rotates a square matrix (4x4 in this case) in a clockwise direction
+     *
+     */
     void rotateMatrix (const int src[][4], int dst[][4], int n)
     {
         if (src == nullptr || dst == nullptr) return;
@@ -206,6 +218,7 @@ namespace kd
             }
         }
     }
+
 
     void rotateMatrixInPlace (int src[][4], int n)
     {
@@ -226,10 +239,38 @@ namespace kd
         }
     }
 
-    /*
-     * Zero Matrix: Write an algorithm such that if an element in an MxM matrix
-     * is 0, its entire row and column are set to 0.
+    /**
+     * \brief Zero Matrix: Write an algorithm such that if an element in an MxM matrix
+     *        is 0, its entire row and column are set to 0.
      */
+    // TODO: Implement Zero Matrix algorithm
+
+    /**
+     * \brief Determine if a string has all unique characters
+     * \param[in] str The C-string to check uniqueness
+     * \param[in] len The length of the C-string provided
+     * \return true if the string is unique
+     */
+    bool isUnique(const char* str, int len)
+    {
+        std::set<char> charSet;
+        bool unique = true;
+
+        for (auto idx = 0; idx < len; ++idx)
+        {
+            auto ch = str[idx];
+            if (charSet.count(ch) == 0)
+            {
+                charSet.insert(str[idx]);
+            }
+            else
+            {
+                unique = false;
+                break;
+            }
+        }
+        return unique;
+    }
 
 } // namespace kd
 
