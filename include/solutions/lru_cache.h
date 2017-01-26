@@ -10,6 +10,15 @@
 #include <map>
 #include <vector>
 
+/*
+ * To get around error C3646 in Visual Studio because of noexcept
+ */
+#ifndef _MSC_VER
+#	define NOEXCEPT noexcept
+#else
+#	define NOEXCEPT
+#endif
+
 namespace kd
 {
     /**
@@ -136,7 +145,7 @@ namespace kd
         /**
          * \brief Get the current size of the cache
          */
-        inline size_t size() const noexcept
+		inline size_t size() const NOEXCEPT
         {
             return this->mEntries.size();
         }
@@ -167,12 +176,12 @@ namespace kd
          */
         struct EntryNode
         {
-            EntryNode() noexcept
+			EntryNode() NOEXCEPT
                 : key(), value(), prev(nullptr), next(nullptr)
             {
 
             }
-            EntryNode(const KeyType& key_, const ValueType& value_) noexcept
+			EntryNode(const KeyType& key_, const ValueType& value_) NOEXCEPT
                 : key(key_), value(value_), prev(nullptr), next(nullptr)
             {
 
