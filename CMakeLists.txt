@@ -38,6 +38,7 @@ set (REHEARSAL_SRC_SOLUTIONS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_two_element_sum.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_random_element_set.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_lru_cache.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/solutions/test_string_problems.cpp
 )
 set (REHEARSAL_SRC_MAIN ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
